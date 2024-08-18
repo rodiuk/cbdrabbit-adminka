@@ -1,0 +1,210 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+  MANAGER
+}
+
+enum OrderStatus {
+  CREATED
+  CANCELED
+  PAID
+  COMPLETED
+  SENDED
+  DELIVERED
+}
+
+model User {
+  id                String  @id @default(uuid())
+  email             String  @unique
+  firstName         String?
+  lastName          String?
+  password          String?
+  isVerified        Boolean @default(false)
+  isActive          Boolean @default(true)
+  isPromo           Boolean @default(true)
+  role              String  @default("USER")
+  totalOrdersAmount Float   @default(0)
+
+  verifiedCode String?
+  successCode  String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  order   Order[]
+  address Address?
+  loyalty Loyalty?
+}
+
+model Loyalty {
+  id              String @id @default(uuid())
+  percentDiscount Int    @default(2)
+
+  userId String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Address {
+  id             String  @id @default(uuid())
+  npDepartment   String?
+  npDeliveryType String?
+  city           String?
+  phoneNumber    String?
+
+  userId String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Order {
+  id             String       @id @default(uuid())
+  checkId        Int          @unique @default(autoincrement())
+  totalSum       Float
+  itemPrice      Float
+  comment        String?
+  status         OrderStatus? @default(CREATED)
+  utm_source     String?
+  utm_medium     String?
+  utm_campaign   String?
+  utm_content    String?
+  utm_term       String?
+  lang           String?
+  firstOrder     Boolean?     @default(false)
+  serviceComment String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  paymentId   String  @unique
+  userId      String
+  promocodeId String?
+
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  orderItems   OrderItem[]
+  promocode    Promocode?    @relation(fields: [promocodeId], references: [id])
+  deliveryInfo DeliveryInfo?
+}
+
+model OrderItem {
+  id       String @id @default(uuid())
+  quantity Int    @default(1)
+
+  productId String
+  orderId   String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  product Product @relation(fields: [productId], references: [id])
+  order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+}
+
+model Product {
+  id          String  @id @default(uuid())
+  productName String
+  description String
+  price       Float
+  locale      String  @default("uk")
+  isStock     Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  images     Image[]
+  orderItems OrderItem[]
+  properties Property[]
+}
+
+model Property {
+  id     String @id @default(uuid())
+  label  String
+  locale String @default("uk")
+
+  imageId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  image     Image    @relation(fields: [imageId], references: [id])
+
+  products Product[]
+}
+
+model Image {
+  id  String @id @default(uuid())
+  url String
+
+  productId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  product  Product?   @relation(fields: [productId], references: [id])
+  property Property[]
+}
+
+model Post {
+  id      String @id @default(uuid())
+  title   String
+  content String
+
+  metaTitle       String?
+  metaDescription String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Promocode {
+  id              String  @id @default(uuid())
+  code            String  @unique
+  percentDiscount Int?
+  newPrice        Int?
+  iasActive       Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  order Order[]
+}
+
+model DeliveryInfo {
+  id                   String  @id @default(uuid())
+  deliveryId           String?
+  trackingNumber       String?
+  deliveryStatus       String?
+  deliveryStatusCode   String?
+  deliveryCost         String?
+  deliveryCreateTime   String?
+  deliveryEstimateTime String?
+  deliveryPayedKeeping String?
+  isFreeDelivery       Boolean @default(false)
+
+  orderId String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+}
