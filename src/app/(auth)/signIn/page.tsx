@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 import AuthLogin from "./-components/Authlogin";
+import { Suspense } from "react";
 
 export default function SignIn() {
   const downMD = useMediaQuery<Theme>((theme) => theme.breakpoints.down("md"));
@@ -71,7 +72,9 @@ export default function SignIn() {
                     </Grid>
                   </Grid>
                   <Grid item xs={12} sx={{ mt: 2 }}>
-                    <AuthLogin />
+                    <Suspense fallback={false}>
+                      <AuthLogin />
+                    </Suspense>
                   </Grid>
                   <Grid item xs={12}>
                     <Divider />

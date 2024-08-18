@@ -11,8 +11,8 @@ import {
 import { RoleButton } from "./RoleButton";
 import { Check } from "@mui/icons-material";
 import { useSession } from "next-auth/react";
-import { IUser } from "@/types/user.interface";
 import { useChangeUserRole } from "./useChangeUserRole";
+import { IUser } from "@/types/interfaces/user.interface";
 
 interface ChangeUserRoleProps {
   user: IUser;
