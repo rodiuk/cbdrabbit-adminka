@@ -25,6 +25,7 @@ interface Props {
   elevation?: number;
 }
 
+// eslint-disable-next-line react/display-name
 const Transitions = React.forwardRef<HTMLDivElement, Props>(
   ({ children, position, type, direction, ...others }, ref) => {
     let positionSX = {

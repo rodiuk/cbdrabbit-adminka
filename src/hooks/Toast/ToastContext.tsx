@@ -37,7 +37,6 @@ export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
     []
   );
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const closeSnackbar = (_: any, reason: string) => {
     if (reason === "clickaway") {
       return;

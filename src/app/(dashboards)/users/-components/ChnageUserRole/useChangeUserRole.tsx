@@ -1,8 +1,8 @@
 import React from "react";
 import { useToast } from "@/hooks/Toast/useToast";
 import { SelectChangeEvent } from "@mui/material";
-import { IUser } from "@/types/user.interface";
 import { updateUserRole } from "@/libs/api/user.api";
+import { IUser } from "@/types/interfaces/user.interface";
 
 export const useChangeUserRole = (user: IUser, onClose?: () => void) => {
   const [role, setRole] = React.useState(user.role);
