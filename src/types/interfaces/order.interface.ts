@@ -1,5 +1,12 @@
-import { IUser } from "./user.interface";
-import { OrderStatus } from "@prisma/client";
+import { IUser, IUserProfile } from "./user.interface";
+import {
+  Image,
+  OrderItem,
+  OrderStatus,
+  Product,
+  Promocode,
+  Property,
+} from "@prisma/client";
 
 export interface IOrder {
   id: string;
@@ -14,6 +21,7 @@ export interface IOrder {
   utm_term?: string | null;
   lang?: string | null;
   firstOrder?: boolean | null;
+  serviceComment?: string | null;
 
   status?: OrderStatus | null;
 
@@ -40,4 +48,26 @@ export interface IDeliveryInfo {
 
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface IOrderFull extends IOrder {
+  user: IUserProfile;
+  deliveryInfo?: IDeliveryInfo | null;
+  promocode?: Promocode | null;
+  orderItems: IOrderItem[];
+}
+
+export interface IOrderItem extends OrderItem {
+  product: IProduct;
+}
+
+export interface IProduct extends Product {
+  images: Image[];
+  properties: Property[];
+}
+
+export interface IOrderUpdatePayload {
+  trackingNumber?: string | null;
+  status: OrderStatus;
+  serviceComment?: string | null;
 }

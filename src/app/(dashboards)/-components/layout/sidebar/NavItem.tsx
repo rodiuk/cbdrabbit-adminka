@@ -15,9 +15,10 @@ import Link from "next/link";
 
 interface Props {
   link: ILink;
+  toggleSidebar?: () => void;
 }
 
-const NavItem = ({ link }: Props) => {
+const NavItem = ({ link, toggleSidebar }: Props) => {
   const pathname = usePathname();
   const isActive =
     (pathname?.includes(link.url) && link.url !== "/") || pathname === link.url;
@@ -41,7 +42,10 @@ const NavItem = ({ link }: Props) => {
         borderRadius: "8px",
       }}
       selected={isActive}
-      onClick={() => itemHandler(link.id)}
+      onClick={() => {
+        itemHandler(link.id);
+        toggleSidebar?.();
+      }}
     >
       <ListItemIcon sx={{ my: "auto", minWidth: !link?.icon ? 18 : 36 }}>
         {link.icon && link.icon}

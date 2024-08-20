@@ -57,7 +57,7 @@ const Sidebar = ({ drawerOpen, drawerToggle }: Props) => {
       </BrowserView>
       <MobileView>
         <Box sx={{ px: 2 }}>
-          <MenuList />
+          <MenuList toggleSidebar={drawerToggle} />
         </Box>
       </MobileView>
     </>

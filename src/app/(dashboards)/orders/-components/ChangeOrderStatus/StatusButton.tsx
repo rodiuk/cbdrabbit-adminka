@@ -3,6 +3,7 @@ import { OrderStatus } from "@prisma/client";
 import { Box, Chip, Icon } from "@mui/material";
 import { Close, Edit } from "@mui/icons-material";
 import { useStatusColor } from "./useStatusColor";
+import { orderStatusList } from "../order.maps";
 
 interface RoleButtonProps {
   showPopper: boolean;
@@ -25,7 +26,7 @@ export const RoleButton = (props: RoleButtonProps): React.JSX.Element => {
       }}
     >
       <Chip
-        label={status}
+        label={orderStatusList.find((s) => s.value === status)?.title}
         color={labelColor}
         deleteIcon={
           <Box

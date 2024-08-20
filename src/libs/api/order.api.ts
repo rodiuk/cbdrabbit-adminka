@@ -1,6 +1,7 @@
 "use server";
 
 import prismaClient from "@/libs/client/prisma.client";
+import { IOrderUpdatePayload } from "@/types/interfaces/order.interface";
 import { OrderStatus } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
@@ -113,6 +114,76 @@ export const changeOrderStatus = async (
 
     revalidatePath(path ? path : "/orders");
 
+    return order;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getFullOrderById = async (orderId: string) => {
+  try {
+    const order = await prismaClient.order.findUnique({
+      where: {
+        id: orderId,
+      },
+      include: {
+        user: {
+          include: {
+            address: true,
+            loyalty: true,
+          },
+        },
+        deliveryInfo: true,
+        promocode: true,
+        orderItems: {
+          include: {
+            product: {
+              include: {
+                properties: {
+                  include: {
+                    image: true,
+                  },
+                },
+                images: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return order;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateManagerOrder = async (
+  orderId: string,
+  data: IOrderUpdatePayload,
+  path?: string
+) => {
+  try {
+    const order = await prismaClient.order.update({
+      where: {
+        id: orderId,
+      },
+      data: {
+        status: data.status,
+        ...(!!data?.serviceComment?.length && {
+          serviceComment: data.serviceComment,
+        }),
+        ...(!!!data?.trackingNumber?.length && {
+          deliveryInfo: {
+            update: {
+              trackingNumber: data.trackingNumber,
+            },
+          },
+        }),
+      },
+    });
+
+    revalidatePath(path ? path : "/orders");
     return order;
   } catch (error) {
     throw error;

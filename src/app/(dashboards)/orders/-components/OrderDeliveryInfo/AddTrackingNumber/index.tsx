@@ -26,7 +26,10 @@ export const AddTrackingNumber = ({
         <Button
           startIcon={<Add />}
           color="secondary"
-          onClick={() => setOpen(true)}
+          onClick={(e) => {
+            e.stopPropagation();
+            setOpen(true);
+          }}
         >
           Додати ТТН
         </Button>
@@ -39,6 +42,9 @@ export const AddTrackingNumber = ({
             alignItems: "center",
             gap: 0.5,
           }}
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
         >
           <Typography
             fontWeight={500}
@@ -49,7 +55,10 @@ export const AddTrackingNumber = ({
 
           <Tooltip title="Редагувати ТТН" arrow>
             <IconButton
-              onClick={() => setOpen(true)}
+              onClick={(e) => {
+                e.stopPropagation();
+                setOpen(true);
+              }}
               size="small"
               color="primary"
             >

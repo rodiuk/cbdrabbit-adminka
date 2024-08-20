@@ -24,7 +24,7 @@ export const ContentBar = (): React.JSX.Element => {
         p: 2,
         borderRadius: "12px",
         overflow: "hidden",
-        mb: "20px",
+        mb: { xs: "8px", sm: "20px" },
         background: (theme) => theme.palette.background.paper,
       }}
     >

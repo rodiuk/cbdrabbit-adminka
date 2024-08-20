@@ -12,6 +12,7 @@ import {
   Theme,
   useMediaQuery,
 } from "@mui/material";
+import { OrderModal } from "./OrderModal";
 import { OrderTableRow } from "./OrderTableRow";
 import { usePagination } from "@/hooks/usePagination";
 import { IPagination } from "@/types/interfaces/app.interface";
@@ -26,6 +27,7 @@ export const OrdersTable = (props: UsersTableProps): React.JSX.Element => {
   const { orders, pagination } = props;
 
   const isSm = useMediaQuery<Theme>((theme) => theme.breakpoints.up("sm"));
+  const [openOrder, setOpenOrder] = React.useState<string | null>(null);
 
   const { onChangePage } = usePagination();
 
@@ -34,7 +36,7 @@ export const OrdersTable = (props: UsersTableProps): React.JSX.Element => {
       <TableContainer
         sx={{
           maxHeight: {
-            xs: "calc(100vh - 320px)",
+            xs: "calc(100vh - 255px)",
             sm: "calc(100vh - 325px)",
           },
         }}
@@ -54,23 +56,36 @@ export const OrdersTable = (props: UsersTableProps): React.JSX.Element => {
               }}
             >
               {isSm && <TableCell sx={{ width: "64px!important" }}></TableCell>}
-              {isSm && (
-                <TableCell sx={{ width: "64px!important" }}>Чек</TableCell>
-              )}
+              <TableCell sx={{ width: "64px!important" }}>Чек</TableCell>
               <TableCell>Клієнт</TableCell>
-              <TableCell>Номер відправлення</TableCell>
+
+              {isSm && <TableCell>Номер відправлення</TableCell>}
+
               <TableCell>Статус</TableCell>
-              <TableCell>Сума</TableCell>
-              <TableCell>Дата</TableCell>
-              <TableCell align="center" sx={{ pr: 3 }}>
-                Дії
-              </TableCell>
+
+              {isSm && <TableCell>Сума</TableCell>}
+              {isSm && <TableCell>Дата</TableCell>}
+              {isSm && (
+                <TableCell align="center" sx={{ pr: 3 }}>
+                  Дії
+                </TableCell>
+              )}
             </TableRow>
           </TableHead>
-          <TableBody>
+          <TableBody
+            sx={{
+              "& tr": {
+                cursor: "pointer",
+              },
+            }}
+          >
             {orders?.length &&
               orders?.map((row, index) => (
-                <OrderTableRow key={index} order={row} />
+                <OrderTableRow
+                  key={index}
+                  order={row}
+                  handleOpenOrderModal={() => setOpenOrder(row.id)}
+                />
               ))}
           </TableBody>
         </Table>
@@ -89,6 +104,14 @@ export const OrdersTable = (props: UsersTableProps): React.JSX.Element => {
           },
         }}
       />
+
+      {openOrder && (
+        <OrderModal
+          open={!!openOrder}
+          onClose={() => setOpenOrder(null)}
+          orderId={openOrder}
+        />
+      )}
     </>
   );
 };

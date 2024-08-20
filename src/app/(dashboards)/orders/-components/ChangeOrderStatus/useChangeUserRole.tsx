@@ -46,20 +46,10 @@ export const useChangeOrderStatus = (
     }
   };
 
-  const orderStatusList = [
-    OrderStatus.DELIVERED,
-    OrderStatus.CANCELED,
-    OrderStatus.CREATED,
-    OrderStatus.PAID,
-    OrderStatus.COMPLETED,
-    OrderStatus.SENDED,
-  ];
-
   return {
     isLoading,
     status,
     onChange,
     updateStatus,
-    orderStatusList,
   };
 };

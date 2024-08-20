@@ -12,6 +12,7 @@ import { RoleButton } from "./StatusButton";
 import { Check } from "@mui/icons-material";
 import { useChangeOrderStatus } from "./useChangeUserRole";
 import { IOrderForList } from "@/types/interfaces/order.interface";
+import { orderStatusList } from "../order.maps";
 
 interface ChangeOrderStatusProps {
   order: IOrderForList;
@@ -30,8 +31,10 @@ export const ChangeOrderStatus = ({
     setAnchorEl(anchorEl ? null : event.currentTarget);
   };
 
-  const { isLoading, status, updateStatus, onChange, orderStatusList } =
-    useChangeOrderStatus(order, () => setAnchorEl(null));
+  const { isLoading, status, updateStatus, onChange } = useChangeOrderStatus(
+    order,
+    () => setAnchorEl(null)
+  );
 
   return (
     <>
@@ -46,6 +49,7 @@ export const ChangeOrderStatus = ({
         {({ TransitionProps }) => (
           <Fade {...TransitionProps} timeout={350}>
             <Box
+              onClick={(e) => e.stopPropagation()}
               sx={{
                 border: 1,
                 borderRadius: "8px",
@@ -60,15 +64,15 @@ export const ChangeOrderStatus = ({
               }}
             >
               <Select
-                id="user-role"
+                id="order-status"
                 size="small"
                 value={status?.toString() || ""}
                 onChange={onChange}
                 sx={{ width: 200 }}
               >
                 {orderStatusList.map((role) => (
-                  <MenuItem key={role} value={role}>
-                    {role}
+                  <MenuItem key={role.title} value={role.value}>
+                    {role.title}
                   </MenuItem>
                 ))}
               </Select>
