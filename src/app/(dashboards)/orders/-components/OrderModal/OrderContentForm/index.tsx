@@ -18,19 +18,20 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { OrderFormSchema, OrderFormType } from "./schema";
 import { useUpdateOrderData } from "./useUpdateOrderData";
 import { DeliveryInfoSection } from "./DeliveryInfoSection";
-import { ModalLoader } from "@/components/Loaders/ModalLoader";
 import { IOrderFull } from "@/types/interfaces/order.interface";
 
 interface Props {
-  order: IOrderFull | null;
-  isLoading: boolean;
+  order: IOrderFull;
   onClose: () => void;
 }
 
 export const OrderContent = (props: Props): React.JSX.Element => {
-  const { order, isLoading, onClose } = props;
+  const { order, onClose } = props;
 
-  if (!order || isLoading) return <ModalLoader />;
+  const { onUpdate, isLoading: isUpdating } = useUpdateOrderData(
+    order.id,
+    onClose
+  );
 
   const {
     control,
@@ -44,11 +45,6 @@ export const OrderContent = (props: Props): React.JSX.Element => {
       trackingNumber: order?.deliveryInfo?.trackingNumber,
     },
   });
-
-  const { onUpdate, isLoading: isUpdating } = useUpdateOrderData(
-    order.id,
-    onClose
-  );
 
   return (
     <Box

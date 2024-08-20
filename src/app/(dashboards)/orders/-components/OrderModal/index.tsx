@@ -3,6 +3,7 @@ import { OrderContent } from "./OrderContentForm";
 import ObjectModal from "@/features/ObjectModal";
 import { useGetOrderInfo } from "./useGetOrderInfo";
 import { Theme, useMediaQuery } from "@mui/material";
+import { ModalLoader } from "@/components/Loaders/ModalLoader";
 
 interface Props {
   orderId: string;
@@ -26,7 +27,11 @@ export const OrderModal = (props: Props): React.JSX.Element => {
         fullWidth
         maxWidth="sm"
         content={
-          <OrderContent order={order} isLoading={isLoading} onClose={onClose} />
+          !order?.id || isLoading ? (
+            <ModalLoader />
+          ) : (
+            <OrderContent order={order} onClose={onClose} />
+          )
         }
       />
     </>
