@@ -92,9 +92,12 @@ export default function themeTypography(theme: any) {
       minHeight: "calc(100vh - 88px)",
       flexGrow: 1,
       padding: "20px",
-      marginTop: "88px",
+      marginTop: "70px",
       marginRight: "20px",
       borderRadius: `${theme?.customization?.borderRadius}px`,
+      "@media (min-width: 600px)": {
+        marginTop: "88px",
+      },
     },
     menuCaption: {
       fontSize: "0.875rem",

@@ -39,7 +39,11 @@ const adminLinks: ILink[] = [
 
 // ==============================|| SIDEBAR MENU LIST ||============================== //
 
-const MenuList = () => {
+interface MenuListProps {
+  toggleSidebar?: () => void;
+}
+
+const MenuList = ({ toggleSidebar }: MenuListProps) => {
   const { data } = useSession();
 
   const role = data?.user?.role;
@@ -51,7 +55,9 @@ const MenuList = () => {
     return managerLinks;
   }, [role]);
 
-  const navItems = links?.map((item) => <NavItem key={item.id} link={item} />);
+  const navItems = links?.map((item) => (
+    <NavItem key={item.id} link={item} toggleSidebar={toggleSidebar} />
+  ));
 
   return <List>{navItems}</List>;
 };

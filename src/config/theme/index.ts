@@ -40,9 +40,10 @@ export const theme = (customization: any) => {
     mixins: {
       toolbar: {
         minHeight: "48px",
-        padding: "16px",
+        padding: "8px 16px",
         "@media (min-width: 600px)": {
           minHeight: "48px",
+          padding: "16px",
         },
       },
     },

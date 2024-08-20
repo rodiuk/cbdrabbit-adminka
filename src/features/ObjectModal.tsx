@@ -6,7 +6,6 @@ import {
   SxProps,
   Theme,
   Typography,
-  useMediaQuery,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import DialogContent from "@mui/material/DialogContent";
@@ -25,11 +24,10 @@ export default function ObjectModal({
   containerProps,
   ...props
 }: CreateObjectModalProps) {
-  const isSm = useMediaQuery<Theme>((theme) => theme.breakpoints.up("sm"));
-
   return (
     <Dialog
       maxWidth={"md"}
+      onClick={(e) => e.stopPropagation()}
       sx={{
         "& .MuiPaper-root": {
           padding: "20px",
@@ -61,7 +59,7 @@ export default function ObjectModal({
         >
           <Typography
             flex={1}
-            variant={"h4"}
+            variant={"h3"}
             dangerouslySetInnerHTML={{ __html: title as string }}
           />
           <IconButton
@@ -79,7 +77,7 @@ export default function ObjectModal({
         id="object-modal"
         sx={{
           p: 0,
-          overflow: "visible",
+          overflowY: "auto",
         }}
       >
         {content}
