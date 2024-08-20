@@ -26,7 +26,7 @@ export const ContentWrapper = styled("main", {
   ),
   [theme.breakpoints.up("md")]: {
     marginLeft: open ? 0 : -(drawerWidth - 20),
-    width: `calc(100% - ${drawerWidth}px)`,
+    width: `calc(100% - ${drawerWidth}px - 20px)`,
     minHeight: "calc(100vh - 155px)",
   },
   [theme.breakpoints.down("md")]: {

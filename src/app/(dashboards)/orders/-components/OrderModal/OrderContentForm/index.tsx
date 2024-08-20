@@ -124,6 +124,7 @@ export const OrderContent = (props: Props): React.JSX.Element => {
             <TextField
               {...field}
               fullWidth
+              size="small"
               variant="outlined"
               placeholder="Номер ТТН"
               error={Boolean(errors.trackingNumber)}

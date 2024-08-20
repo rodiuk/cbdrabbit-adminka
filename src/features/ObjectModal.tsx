@@ -32,8 +32,8 @@ export default function ObjectModal({
         "& .MuiPaper-root": {
           padding: "20px",
           gap: "20px",
-          borderRadius: "16px",
           overflow: "hidden",
+          ...(!props?.fullScreen && { borderRadius: "16px" }),
         },
         ...containerProps,
       }}

@@ -6,10 +6,10 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
 
-// assets
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { ILink } from "./MenuList";
-import Link from "next/link";
+import React, { useTransition } from "react";
+import { CircularProgress, Theme, useMediaQuery } from "@mui/material";
 
 // ==============================|| SIDEBAR MENU LIST ITEMS ||============================== //
 
@@ -20,19 +20,26 @@ interface Props {
 
 const NavItem = ({ link, toggleSidebar }: Props) => {
   const pathname = usePathname();
+  const router = useRouter();
+  const [isLoading, startTransition] = useTransition();
+
+  const isDownMd = useMediaQuery<Theme>((theme) =>
+    theme.breakpoints.down("md")
+  );
+
   const isActive =
     (pathname?.includes(link.url) && link.url !== "/") || pathname === link.url;
 
-  const itemHandler = (id: string) => {
-    // dispatch({ type: MENU_OPEN, id });
-    // if (matchesSM) dispatch({ type: SET_MENU, opened: false });
+  const handleNav = async () => {
+    startTransition(() => router.push(link.url));
   };
+
+  React.useEffect(() => {
+    isDownMd && toggleSidebar?.();
+  }, [pathname]);
 
   return (
     <ListItemButton
-      component={Link}
-      href={link.url}
-      prefetch
       sx={{
         mb: 1,
         alignItems: "flex-start",
@@ -43,12 +50,13 @@ const NavItem = ({ link, toggleSidebar }: Props) => {
       }}
       selected={isActive}
       onClick={() => {
-        itemHandler(link.id);
-        toggleSidebar?.();
+        handleNav();
+        // toggleSidebar?.();
       }}
     >
       <ListItemIcon sx={{ my: "auto", minWidth: !link?.icon ? 18 : 36 }}>
-        {link.icon && link.icon}
+        {isLoading && <CircularProgress size={18} color={"secondary"} />}
+        {link.icon && !isLoading && link.icon}
       </ListItemIcon>
       <ListItemText
         primary={
