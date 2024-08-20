@@ -22,7 +22,12 @@ export const useContentBarData = () => {
   const breadcrumbs = React.useMemo(() => {
     switch (pathname) {
       case "/dashboard":
-        return [];
+        return [
+          {
+            title: "Дошка",
+            href: "/dashboard",
+          },
+        ];
       case "/orders":
         return [
           {

@@ -27,7 +27,7 @@ export const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
   const [leftDrawerOpened, setLeftDrawerOpened] = useAtom(leftDrawerOpenedAtom);
 
   const handleLeftDrawerToggle = () => {
-    setLeftDrawerOpened(!leftDrawerOpened);
+    setLeftDrawerOpened((prev) => !prev);
   };
 
   return (
@@ -56,7 +56,7 @@ export const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
       </AppBar>
 
       <Sidebar
-        drawerOpen={!matchDownMd ? leftDrawerOpened : !leftDrawerOpened}
+        drawerOpen={leftDrawerOpened}
         drawerToggle={handleLeftDrawerToggle}
       />
 

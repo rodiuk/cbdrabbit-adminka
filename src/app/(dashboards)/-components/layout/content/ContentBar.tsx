@@ -61,7 +61,7 @@ export const ContentBar = (): React.JSX.Element => {
             >
               <Typography
                 component={Link}
-                href="/"
+                href="/dashboard"
                 color="inherit"
                 variant="subtitle1"
                 sx={linkSX}
