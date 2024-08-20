@@ -6,7 +6,7 @@ export const useContentBarData = () => {
 
   const title = React.useMemo(() => {
     switch (pathname) {
-      case "/":
+      case "/dashboard":
         return "Дошка";
       case "/orders":
         return "Список замовлень";
@@ -21,7 +21,7 @@ export const useContentBarData = () => {
 
   const breadcrumbs = React.useMemo(() => {
     switch (pathname) {
-      case "/":
+      case "/dashboard":
         return [];
       case "/orders":
         return [

@@ -14,8 +14,8 @@ import { useAtom } from "jotai";
 import Sidebar from "./sidebar";
 import { useTheme } from "@emotion/react";
 import { ContentWrapper } from "./ContentWrapper";
-import { leftDrawerOpenedAtom } from "@/libs/atoms/app.atoms";
 import { ContentBar } from "./content/ContentBar";
+import { leftDrawerOpenedAtom } from "@/libs/atoms/app.atoms";
 import { PageWrapper } from "@/components/Wrappers/PageWrapper";
 
 export const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
