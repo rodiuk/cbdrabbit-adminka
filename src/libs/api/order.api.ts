@@ -173,15 +173,23 @@ export const updateManagerOrder = async (
         ...(!!data?.serviceComment?.length && {
           serviceComment: data.serviceComment,
         }),
-        ...(!!!data?.trackingNumber?.length && {
-          deliveryInfo: {
-            update: {
-              trackingNumber: data.trackingNumber,
-            },
-          },
-        }),
       },
     });
+
+    if (data?.trackingNumber) {
+      await prismaClient.deliveryInfo.upsert({
+        where: {
+          orderId,
+        },
+        create: {
+          orderId,
+          trackingNumber: data.trackingNumber,
+        },
+        update: {
+          trackingNumber: data.trackingNumber,
+        },
+      });
+    }
 
     revalidatePath(path ? path : "/orders");
     return order;
