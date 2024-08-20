@@ -10,6 +10,15 @@ const nextConfig = {
   sassOptions: {
     includePaths: [path.join(__dirname, "public/styles")],
   },
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/orders",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

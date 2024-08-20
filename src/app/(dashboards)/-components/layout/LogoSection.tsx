@@ -17,7 +17,7 @@ const LogoSection = () => {
         }
       }}
       component={Link}
-      href={"/"}
+      href={"/dashboard"}
       sx={{
         fontSize: "1.3rem",
         fontWeight: "700",

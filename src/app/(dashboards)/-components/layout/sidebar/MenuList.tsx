@@ -17,7 +17,7 @@ const managerLinks: ILink[] = [
   {
     id: "dashboard",
     title: "Дошка",
-    url: "/",
+    url: "/dashboard",
     icon: <Dashboard />,
   },
   {
