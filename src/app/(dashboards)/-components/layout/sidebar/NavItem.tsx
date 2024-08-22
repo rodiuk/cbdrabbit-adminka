@@ -31,12 +31,11 @@ const NavItem = ({ link, toggleSidebar }: Props) => {
     (pathname?.includes(link.url) && link.url !== "/") || pathname === link.url;
 
   const handleNav = async () => {
-    startTransition(() => router.push(link.url));
+    startTransition(() => {
+      router.push(link.url);
+      isDownMd && toggleSidebar?.();
+    });
   };
-
-  React.useEffect(() => {
-    isDownMd && toggleSidebar?.();
-  }, [pathname]);
 
   return (
     <ListItemButton

@@ -30,7 +30,7 @@ export const UsersTable = (props: UsersTableProps): React.JSX.Element => {
       <TableContainer
         sx={{
           maxHeight: {
-            xs: "calc(100vh - 255px)",
+            xs: "fit-content",
             sm: "calc(100vh - 305px)",
           },
         }}
