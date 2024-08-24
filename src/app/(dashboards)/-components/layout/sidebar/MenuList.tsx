@@ -1,10 +1,15 @@
+import React from "react";
 import { List } from "@mui/material";
 
 // project imports
+import {
+  ConfirmationNumber,
+  Dashboard,
+  ListAlt,
+  People,
+} from "@mui/icons-material";
 import NavItem from "./NavItem";
 import { useSession } from "next-auth/react";
-import { Dashboard, ListAlt, People } from "@mui/icons-material";
-import React from "react";
 
 export interface ILink {
   id: string;
@@ -29,6 +34,12 @@ const managerLinks: ILink[] = [
 ];
 
 const adminLinks: ILink[] = [
+  {
+    id: "promocodes",
+    title: "Промокоди",
+    url: "/promocodes",
+    icon: <ConfirmationNumber />,
+  },
   {
     id: "users",
     title: "Користувачі",
