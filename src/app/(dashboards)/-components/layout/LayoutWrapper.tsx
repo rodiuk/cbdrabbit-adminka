@@ -1,14 +1,7 @@
 "use client";
 
 import React from "react";
-import {
-  AppBar,
-  Box,
-  CssBaseline,
-  Theme,
-  Toolbar,
-  useMediaQuery,
-} from "@mui/material";
+import { AppBar, Box, CssBaseline, Toolbar } from "@mui/material";
 import Header from "./header";
 import { useAtom } from "jotai";
 import Sidebar from "./sidebar";
@@ -20,9 +13,7 @@ import { PageWrapper } from "@/components/Wrappers/PageWrapper";
 
 export const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
   const theme = useTheme() as any;
-  const matchDownMd = useMediaQuery<Theme>((theme) =>
-    theme.breakpoints.down("md")
-  );
+
   // Handle left drawer
   const [leftDrawerOpened, setLeftDrawerOpened] = useAtom(leftDrawerOpenedAtom);
 

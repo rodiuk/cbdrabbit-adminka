@@ -37,7 +37,10 @@ export function middleware(request: NextRequest) {
       return response;
     }
 
-    if (token.role !== "ADMIN" && request.nextUrl.pathname === "/users") {
+    if (
+      token.role !== "ADMIN" &&
+      ["/users", "/promocodes"].some((x) => x === request.nextUrl.pathname)
+    ) {
       const url = new URL("/orders");
       return NextResponse.redirect(url);
     }

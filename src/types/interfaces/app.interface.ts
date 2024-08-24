@@ -6,6 +6,9 @@ export interface IPageProps {
 export interface ISearchParams {
   page: number;
   limit: number;
+  search: string;
+  type: string;
+  status: string;
 }
 
 export interface IPagination {

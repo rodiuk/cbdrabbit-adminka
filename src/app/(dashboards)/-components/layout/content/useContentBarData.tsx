@@ -14,6 +14,8 @@ export const useContentBarData = () => {
         return "Список користувачів";
       case "/settings":
         return "Налаштування";
+      case "/promocodes":
+        return "Промокоди";
       default:
         return "";
     }
@@ -40,6 +42,13 @@ export const useContentBarData = () => {
           {
             title: "Список користувачів",
             href: "/users",
+          },
+        ];
+      case "/promocodes":
+        return [
+          {
+            title: "Промокоди",
+            href: "/promocodes",
           },
         ];
       case "/settings":
