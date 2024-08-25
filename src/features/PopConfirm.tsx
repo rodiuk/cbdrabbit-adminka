@@ -128,6 +128,9 @@ export default function PopConfirm(props: Props) {
             p: "20px",
             pt: "4px",
             width: "100%",
+            display: "flex",
+            flexDirection: { xs: "column", sm: "row" },
+            gap: 1,
             pb: props.additionalText || props.additionalNode ? 0 : 3,
           }}
         >
@@ -150,7 +153,7 @@ export default function PopConfirm(props: Props) {
             }}
             color={props.reverseButtonColors ? "error" : "secondary"}
             endIcon={props?.isLoading ? <CircularProgress size={20} /> : null}
-            sx={{ width: "100%" }}
+            sx={{ width: "100%", ml: "0px!important" }}
           >
             {props.confirmText}
           </Button>

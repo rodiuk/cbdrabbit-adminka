@@ -54,7 +54,14 @@ export const PromoCodesFilterList = ({
   return (
     <Box sx={{ bgcolor: "grey.50" }}>
       <Card sx={{ borderRadius: 0 }}>
-        <CardContent sx={{ borderRadius: 0, py: 1.25, pr: 0, pl: "20px" }}>
+        <CardContent
+          sx={{
+            borderRadius: 0,
+            py: 1.25,
+            pr: { xs: "20px", sm: 0 },
+            pl: "20px",
+          }}
+        >
           <FormControl fullWidth>
             <InputLabel size="small">Тип промокоду</InputLabel>
             <Select
@@ -79,7 +86,14 @@ export const PromoCodesFilterList = ({
             </Select>
           </FormControl>
         </CardContent>
-        <CardContent sx={{ borderRadius: 0, py: 1.25, pr: 0, pl: "20px" }}>
+        <CardContent
+          sx={{
+            borderRadius: 0,
+            py: 1.25,
+            pr: { xs: "20px", sm: 0 },
+            pl: "20px",
+          }}
+        >
           <FormControl fullWidth>
             <InputLabel size="small">Статус</InputLabel>
             <Select
@@ -111,7 +125,14 @@ export const PromoCodesFilterList = ({
           }}
         />
 
-        <CardContent sx={{ borderRadius: 0, py: 1.25, pr: 0, pl: "20px" }}>
+        <CardContent
+          sx={{
+            borderRadius: 0,
+            py: 1.25,
+            pr: { xs: "20px", sm: 0 },
+            pl: "20px",
+          }}
+        >
           <Stack spacing={4}>
             <Stack direction="row" spacing={1} justifyContent="center">
               <Button
