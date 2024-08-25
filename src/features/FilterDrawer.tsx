@@ -1,7 +1,6 @@
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
-import Button from "@mui/material/Button";
 import Drawer from "@mui/material/Drawer";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
@@ -36,7 +35,7 @@ export const FilterDrawer = ({
       anchor="right"
       open={open}
     >
-      <Box sx={{ px: 2.5, py: 1.5 }}>
+      <Box sx={{ px: 2.5, py: 1.5, pr: "4px" }}>
         <Grid
           container
           justifyContent="space-between"
@@ -67,7 +66,11 @@ export const FilterDrawer = ({
           </Grid>
         </Grid>
       </Box>
-      <Divider />
+      <Divider
+        sx={{
+          ml: "20px",
+        }}
+      />
       {filters}
     </Drawer>
   );

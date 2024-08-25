@@ -37,7 +37,7 @@ export const OrdersTable = (props: UsersTableProps): React.JSX.Element => {
         sx={{
           maxHeight: {
             xs: "fit-content",
-            sm: "calc(100vh - 325px)",
+            sm: "calc(100vh - 365px)",
           },
         }}
       >

@@ -9,6 +9,11 @@ export interface ISearchParams {
   search: string;
   type: string;
   status: string;
+  minPrice: number;
+  maxPrice: number;
+  startDate: string;
+  endDate: string;
+  role: string;
 }
 
 export interface IPagination {

@@ -11,9 +11,9 @@ import {
   TableRow,
 } from "@mui/material";
 import { UserTableRow } from "./UserTableRow";
+import { usePagination } from "@/hooks/usePagination";
 import { IUser } from "@/types/interfaces/user.interface";
 import { IPagination } from "@/types/interfaces/app.interface";
-import { usePagination } from "@/hooks/usePagination";
 
 interface UsersTableProps {
   users: IUser[];
@@ -31,7 +31,7 @@ export const UsersTable = (props: UsersTableProps): React.JSX.Element => {
         sx={{
           maxHeight: {
             xs: "fit-content",
-            sm: "calc(100vh - 305px)",
+            sm: "calc(100vh - 375px)",
           },
         }}
       >

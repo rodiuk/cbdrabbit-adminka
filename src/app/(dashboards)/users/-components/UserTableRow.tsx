@@ -1,18 +1,16 @@
 import React from "react";
-import { BlockTwoTone, CheckCircle } from "@mui/icons-material";
 import {
   Avatar,
   Chip,
   Grid,
-  IconButton,
-  Stack,
   TableCell,
   TableRow,
-  Tooltip,
   Typography,
   useTheme,
 } from "@mui/material";
+import { UserActions } from "./UserActions";
 import { ChangeUserRole } from "./ChnageUserRole";
+import { CheckCircle } from "@mui/icons-material";
 import { IUser } from "@/types/interfaces/user.interface";
 
 interface UserTableRowProps {
@@ -88,23 +86,7 @@ export const UserTableRow = (props: UserTableRowProps): React.JSX.Element => {
         )}
       </TableCell>
       <TableCell align="center" sx={{ pr: 3 }}>
-        <Stack direction="row" justifyContent="center" alignItems="center">
-          <Tooltip placement="top" title="Блокувати користувача">
-            <IconButton
-              color="primary"
-              sx={{
-                color: theme.palette.orange.dark,
-                borderColor: theme.palette.orange.main,
-                "&:hover ": {
-                  background: theme.palette.orange.light,
-                },
-              }}
-              size="large"
-            >
-              <BlockTwoTone sx={{ fontSize: "1.1rem" }} />
-            </IconButton>
-          </Tooltip>
-        </Stack>
+        <UserActions user={user} />
       </TableCell>
     </TableRow>
   );

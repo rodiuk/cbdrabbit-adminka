@@ -51,6 +51,7 @@ export const PromoCodesTable = (
               <TableCell>Промокод</TableCell>
               <TableCell>Тип</TableCell>
               <TableCell>Статус</TableCell>
+              <TableCell>Номінал</TableCell>
               <TableCell align="center" sx={{ pr: 3 }}>
                 Дії
               </TableCell>

@@ -1,16 +1,16 @@
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Divider from "@mui/material/Divider";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
 import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import Select from "@mui/material/Select";
+import Divider from "@mui/material/Divider";
+import MenuItem from "@mui/material/MenuItem";
+import InputLabel from "@mui/material/InputLabel";
 import IconButton from "@mui/material/IconButton";
+import CardContent from "@mui/material/CardContent";
+import FormControl from "@mui/material/FormControl";
 import { RefreshOutlined, Clear } from "@mui/icons-material";
-import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 interface PromoCodesFilterListProps {
@@ -39,7 +39,7 @@ export const PromoCodesFilterList = ({
     router.replace(`?${params.toString()}`);
   };
 
-  const handleApply = () => {
+  React.useEffect(() => {
     const params = new URLSearchParams(searchParams.toString());
 
     promoCodeType && params.set("type", promoCodeType);
@@ -49,13 +49,12 @@ export const PromoCodesFilterList = ({
     !status && params.delete("status");
 
     router.replace(`?${params.toString()}`);
-    handleToggleDrawer();
-  };
+  }, [promoCodeType, router, searchParams, status]);
 
   return (
     <Box sx={{ bgcolor: "grey.50" }}>
       <Card sx={{ borderRadius: 0 }}>
-        <CardContent sx={{ borderRadius: 0, py: 1.25, px: 2.5 }}>
+        <CardContent sx={{ borderRadius: 0, py: 1.25, pr: 0, pl: "20px" }}>
           <FormControl fullWidth>
             <InputLabel size="small">Тип промокоду</InputLabel>
             <Select
@@ -80,7 +79,7 @@ export const PromoCodesFilterList = ({
             </Select>
           </FormControl>
         </CardContent>
-        <CardContent sx={{ borderRadius: 0, py: 1.25, px: 2.5 }}>
+        <CardContent sx={{ borderRadius: 0, py: 1.25, pr: 0, pl: "20px" }}>
           <FormControl fullWidth>
             <InputLabel size="small">Статус</InputLabel>
             <Select
@@ -106,18 +105,15 @@ export const PromoCodesFilterList = ({
           </FormControl>
         </CardContent>
 
-        <Divider />
-        <CardContent sx={{ borderRadius: 0, py: 1.25, px: 2.5 }}>
+        <Divider
+          sx={{
+            ml: "20px",
+          }}
+        />
+
+        <CardContent sx={{ borderRadius: 0, py: 1.25, pr: 0, pl: "20px" }}>
           <Stack spacing={4}>
             <Stack direction="row" spacing={1} justifyContent="center">
-              <Button
-                variant="contained"
-                onClick={handleApply}
-                color="primary"
-                fullWidth
-              >
-                Застосувати
-              </Button>
               <Button
                 variant="outlined"
                 color="error"

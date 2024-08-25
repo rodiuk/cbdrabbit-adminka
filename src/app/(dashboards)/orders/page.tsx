@@ -1,9 +1,28 @@
 import { getOrdersList } from "@/libs/api/order.api";
-import { OrdersTable } from "./-components/OrdersTable";
 import { IPageProps } from "@/types/interfaces/app.interface";
+import { OrdersPageContent } from "./-components/OrdersPageContent";
 
 export default async function Orders(props: IPageProps) {
-  const { orders, pagination } = await getOrdersList(props?.searchParams?.page);
+  const { searchParams } = props;
 
-  return <OrdersTable orders={orders} pagination={pagination} />;
+  const { orders, pagination } = await getOrdersList(
+    searchParams?.page,
+    searchParams?.limit,
+    searchParams?.search,
+    searchParams?.status,
+    +searchParams?.minPrice,
+    +searchParams?.maxPrice,
+    searchParams?.startDate,
+    searchParams?.endDate
+  );
+
+  const hasFilters = Object.values(searchParams).some((param) => !!param);
+
+  return (
+    <OrdersPageContent
+      orders={orders}
+      pagination={pagination}
+      isSearch={hasFilters}
+    />
+  );
 }

@@ -73,6 +73,7 @@ export default function PopConfirm(props: Props) {
       {element &&
         React.cloneElement(element, {
           onClick: (e: React.MouseEvent) => {
+            e.stopPropagation();
             props.onShow && props.onShow(e);
             if (!e.defaultPrevented) {
               setShow(true);
@@ -84,7 +85,10 @@ export default function PopConfirm(props: Props) {
         className="no-drag"
         maxWidth={"xs"}
         open={show}
-        onClose={() => handleClose()}
+        onClose={(e: any) => {
+          e?.stopPropagation();
+          handleClose();
+        }}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
         sx={{
@@ -129,7 +133,10 @@ export default function PopConfirm(props: Props) {
         >
           <Button
             variant={"contained"}
-            onClick={handleCancel}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleCancel(e);
+            }}
             color={props.reverseButtonColors ? "secondary" : "error"}
             sx={{ width: "100%" }}
           >
@@ -137,7 +144,10 @@ export default function PopConfirm(props: Props) {
           </Button>
           <Button
             variant={"contained"}
-            onClick={handleConfirm}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleConfirm(e);
+            }}
             color={props.reverseButtonColors ? "error" : "secondary"}
             endIcon={props?.isLoading ? <CircularProgress size={20} /> : null}
             sx={{ width: "100%" }}

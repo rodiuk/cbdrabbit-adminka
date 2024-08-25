@@ -1,9 +1,9 @@
 import React from "react";
 import { OrderStatus } from "@prisma/client";
 import { Box, Chip, Icon } from "@mui/material";
+import { orderStatusList } from "../order.maps";
 import { Close, Edit } from "@mui/icons-material";
 import { useStatusColor } from "./useStatusColor";
-import { orderStatusList } from "../order.maps";
 
 interface RoleButtonProps {
   showPopper: boolean;
