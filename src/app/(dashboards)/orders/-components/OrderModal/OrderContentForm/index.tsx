@@ -1,5 +1,4 @@
 import React from "react";
-import { format } from "date-fns";
 import {
   Box,
   Button,
@@ -11,6 +10,8 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { format } from "date-fns";
+import { OrderMeta } from "./OrderMeta";
 import { orderStatusList } from "../../order.maps";
 import { OrderInfoSection } from "./OrderInfoSection";
 import { Controller, useForm } from "react-hook-form";
@@ -136,6 +137,8 @@ export const OrderContent = (props: Props): React.JSX.Element => {
       </FormControl>
 
       <DeliveryInfoSection order={order} />
+
+      <OrderMeta order={order} />
 
       <Button
         type="submit"

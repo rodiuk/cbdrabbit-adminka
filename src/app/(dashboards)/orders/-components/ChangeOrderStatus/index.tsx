@@ -10,9 +10,9 @@ import {
 } from "@mui/material";
 import { RoleButton } from "./StatusButton";
 import { Check } from "@mui/icons-material";
+import { orderStatusList } from "../order.maps";
 import { useChangeOrderStatus } from "./useChangeUserRole";
 import { IOrderForList } from "@/types/interfaces/order.interface";
-import { orderStatusList } from "../order.maps";
 
 interface ChangeOrderStatusProps {
   order: IOrderForList;

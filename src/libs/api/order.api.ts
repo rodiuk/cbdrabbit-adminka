@@ -1,19 +1,53 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
+import { OrderStatus } from "@prisma/client";
 import prismaClient from "@/libs/client/prisma.client";
 import { IOrderUpdatePayload } from "@/types/interfaces/order.interface";
-import { OrderStatus } from "@prisma/client";
-import { revalidatePath } from "next/cache";
 
-export const getOrdersList = async (page = 1, limit = 15) => {
+export const getOrdersList = async (
+  page = 1,
+  limit = 15,
+  search?: string,
+  status?: string,
+  minPrice?: number,
+  maxPrice?: number,
+  startDate?: string,
+  endDate?: string
+) => {
   try {
     const skip = (page - 1) * limit;
 
-    const total = await prismaClient.order.count();
+    const checkId =
+      typeof Number(search) === "number" && search?.length !== 14
+        ? Number(search)
+        : undefined;
+
+    const searchFilter: any = {
+      ...(checkId && { checkId: { equals: checkId } }),
+      ...(status && { status: { equals: status } }),
+      ...(search?.length &&
+        !checkId && {
+          deliveryInfo: {
+            trackingNumber: {
+              contains: search,
+            },
+          },
+        }),
+      ...(minPrice && { totalSum: { gte: minPrice } }),
+      ...(maxPrice && { totalSum: { lte: maxPrice } }),
+      ...(startDate && { createdAt: { gte: new Date(startDate) } }),
+      ...(endDate && { createdAt: { lte: new Date(endDate) } }),
+    };
+
+    const total = await prismaClient.order.count({
+      where: searchFilter,
+    });
     const totalPage = Math.ceil(total / limit);
     const currentPage = page > totalPage ? totalPage : page;
 
     const orders = await prismaClient.order.findMany({
+      where: searchFilter,
       include: {
         user: true,
         deliveryInfo: true,
@@ -193,6 +227,20 @@ export const updateManagerOrder = async (
 
     revalidatePath(path ? path : "/orders");
     return order;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const deleteOrder = async (orderId: string, path?: string) => {
+  try {
+    await prismaClient.order.delete({
+      where: {
+        id: orderId,
+      },
+    });
+
+    revalidatePath(path ? path : "/orders");
   } catch (error) {
     throw error;
   }

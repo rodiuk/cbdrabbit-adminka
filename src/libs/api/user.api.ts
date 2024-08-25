@@ -21,15 +21,52 @@ export const getUserByEmail = async (email: string) => {
   }
 };
 
-export const getAllUsers = async (page = 1, limit = 15) => {
+export const getAllUsers = async (
+  page = 1,
+  limit = 15,
+  search?: string,
+  status?: string,
+  role?: string
+) => {
   try {
     const skip = (page - 1) * limit;
 
-    const total = await prisma.user.count();
+    const searchFilters = {
+      ...(search && {
+        OR: [
+          {
+            email: {
+              contains: search,
+            },
+          },
+          {
+            firstName: {
+              contains: search,
+            },
+          },
+          {
+            lastName: {
+              contains: search,
+            },
+          },
+        ],
+      }),
+      ...(status && {
+        isActive: status === "active" ? true : false,
+      }),
+      ...(role && {
+        role: { equals: role },
+      }),
+    };
+
+    const total = await prisma.user.count({
+      where: searchFilters,
+    });
     const totalPage = Math.ceil(total / limit);
     const currentPage = page > totalPage ? totalPage : page;
 
     const users = await prisma.user.findMany({
+      where: searchFilters,
       select: {
         id: true,
         email: true,
@@ -314,6 +351,37 @@ export const deleteAccount = async (userId: string) => {
         isActive: false,
       },
     });
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const deleteUser = async (userId: string) => {
+  try {
+    await prisma.user.delete({
+      where: {
+        id: userId,
+      },
+    });
+
+    revalidatePath("/users");
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const changeUserAccess = async (userId: string, status: boolean) => {
+  try {
+    await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        isActive: status,
+      },
+    });
+
+    revalidatePath("/users");
   } catch (error) {
     throw error;
   }

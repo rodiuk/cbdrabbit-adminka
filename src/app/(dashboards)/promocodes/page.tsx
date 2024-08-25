@@ -13,13 +13,13 @@ export default async function Promocodes(props: IPageProps) {
     searchParams?.status
   );
 
+  const hasFilters = Object.values(searchParams).some((param) => !!param);
+
   return (
     <PromoCodesPageContent
       promcodes={promocodes}
       pagination={pagination}
-      isSearch={
-        !!searchParams?.search || !!searchParams?.type || !!searchParams?.status
-      }
+      isSearch={hasFilters}
     />
   );
 }

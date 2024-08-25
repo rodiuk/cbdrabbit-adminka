@@ -1,5 +1,4 @@
 import React from "react";
-import { IOrderFull } from "@/types/interfaces/order.interface";
 import {
   Avatar,
   Box,
@@ -10,6 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import { CardGiftcard } from "@mui/icons-material";
+import { IOrderFull } from "@/types/interfaces/order.interface";
 
 interface Props {
   order: IOrderFull | null;

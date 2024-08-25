@@ -1,18 +1,7 @@
 import React from "react";
-import {
-  Chip,
-  IconButton,
-  Stack,
-  TableCell,
-  TableRow,
-  Tooltip,
-  Typography,
-  useTheme,
-} from "@mui/material";
 import { Promocode } from "@prisma/client";
-import PopConfirm from "@/features/PopConfirm";
-import { DeleteOutline, EditOutlined } from "@mui/icons-material";
 import { PromoCodeActions } from "./PromoCodeActions";
+import { Chip, TableCell, TableRow, Typography, useTheme } from "@mui/material";
 
 interface PromoCodesTableRowProps {
   promocodes: Promocode;
@@ -67,6 +56,12 @@ export const PromoCodesTableRow = (
             }}
           />
         )}
+      </TableCell>
+      <TableCell>
+        <Typography variant="subtitle1" component="div">
+          {promocodes.percentDiscount || promocodes.newPrice}{" "}
+          {!!promocodes?.newPrice ? "₴" : "%"}
+        </Typography>
       </TableCell>
 
       <TableCell align="center" sx={{ pr: 3 }}>
