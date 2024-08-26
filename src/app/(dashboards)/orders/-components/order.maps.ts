@@ -4,7 +4,8 @@ export const orderStatusList = [
   { title: "Створено", value: OrderStatus.CREATED },
   { title: "Оплачено", value: OrderStatus.PAID },
   { title: "Укомплектовано", value: OrderStatus.COMPLETED },
-  { title: "Відправлено", value: OrderStatus.SENDED },
+  { title: "Передано до НП", value: OrderStatus.SENDED },
   { title: "Відмінено", value: OrderStatus.CANCELED },
-  { title: "Доставлено", value: OrderStatus.DELIVERED },
+  { title: "Доставлено у відділення", value: OrderStatus.DELIVERED },
+  { title: "Отримано", value: OrderStatus.SUCCESS },
 ];
