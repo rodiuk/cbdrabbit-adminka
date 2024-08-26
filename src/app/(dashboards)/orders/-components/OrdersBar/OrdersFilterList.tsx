@@ -75,7 +75,14 @@ export const OrdersFilterList = () => {
   return (
     <Box sx={{ bgcolor: "grey.50" }}>
       <Card sx={{ borderRadius: 0 }}>
-        <CardContent sx={{ borderRadius: 0, py: 1.25, pr: 0, pl: "20px" }}>
+        <CardContent
+          sx={{
+            borderRadius: 0,
+            py: 1.25,
+            pr: { xs: "20px", sm: 0 },
+            pl: "20px",
+          }}
+        >
           <FormControl component="fieldset">
             <FormLabel
               component="legend"
@@ -109,7 +116,14 @@ export const OrdersFilterList = () => {
           </FormControl>
         </CardContent>
 
-        <CardContent sx={{ borderRadius: 0, py: 1.25, pr: 0, pl: "20px" }}>
+        <CardContent
+          sx={{
+            borderRadius: 0,
+            py: 1.25,
+            pr: { xs: "20px", sm: 0 },
+            pl: "20px",
+          }}
+        >
           <FormControl fullWidth>
             <FormLabel
               component="legend"
@@ -146,7 +160,14 @@ export const OrdersFilterList = () => {
           </FormControl>
         </CardContent>
 
-        <CardContent sx={{ borderRadius: 0, py: 1.25, pr: 0, pl: "20px" }}>
+        <CardContent
+          sx={{
+            borderRadius: 0,
+            py: 1.25,
+            pr: { xs: "20px", sm: 0 },
+            pl: "20px",
+          }}
+        >
           <FormControl fullWidth>
             <FormLabel
               component="legend"
@@ -194,7 +215,14 @@ export const OrdersFilterList = () => {
             ml: "20px",
           }}
         />
-        <CardContent sx={{ borderRadius: 0, py: 1.25, pr: 0, pl: "20px" }}>
+        <CardContent
+          sx={{
+            borderRadius: 0,
+            py: 1.25,
+            pr: { xs: "20px", sm: 0 },
+            pl: "20px",
+          }}
+        >
           <Stack spacing={4}>
             <Stack direction="row" spacing={1} justifyContent="center">
               <Button

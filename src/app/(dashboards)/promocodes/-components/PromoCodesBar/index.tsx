@@ -60,7 +60,7 @@ export const PromoCodesBar = ({
         direction={{ xs: "column", sm: "row" }}
         justifyContent="space-between"
         alignItems={{ sm: "center" }}
-        spacing={2}
+        spacing={{ xs: 1, sm: 2 }}
       >
         <TextField
           size="small"
@@ -91,8 +91,8 @@ export const PromoCodesBar = ({
         <Stack
           direction="row"
           alignItems="center"
-          justifyContent={{ xs: "center" }}
-          spacing={1.25}
+          justifyContent={{ xs: "flex-end", sm: "center" }}
+          spacing={1}
         >
           <Tooltip title={"Показати фільтри"}>
             <IconButton size="medium" onClick={handleToggleDrawer}>

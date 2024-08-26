@@ -46,7 +46,14 @@ export const UsersFilterList = () => {
   return (
     <Box sx={{ bgcolor: "grey.50" }}>
       <Card sx={{ borderRadius: 0 }}>
-        <CardContent sx={{ borderRadius: 0, py: 1.25, pr: 0, pl: "20px" }}>
+        <CardContent
+          sx={{
+            borderRadius: 0,
+            py: 1.25,
+            pr: { xs: "20px", sm: 0 },
+            pl: "20px",
+          }}
+        >
           <FormControl component="fieldset">
             <FormLabel
               component="legend"
@@ -82,7 +89,14 @@ export const UsersFilterList = () => {
           </FormControl>
         </CardContent>
 
-        <CardContent sx={{ borderRadius: 0, py: 1.25, pr: 0, pl: "20px" }}>
+        <CardContent
+          sx={{
+            borderRadius: 0,
+            py: 1.25,
+            pr: { xs: "20px", sm: 0 },
+            pl: "20px",
+          }}
+        >
           <FormControl component="fieldset">
             <FormLabel
               component="legend"
@@ -128,7 +142,14 @@ export const UsersFilterList = () => {
             ml: "20px",
           }}
         />
-        <CardContent sx={{ borderRadius: 0, py: 1.25, pr: 0, pl: "20px" }}>
+        <CardContent
+          sx={{
+            borderRadius: 0,
+            py: 1.25,
+            pr: { xs: "20px", sm: 0 },
+            pl: "20px",
+          }}
+        >
           <Stack spacing={4}>
             <Stack direction="row" spacing={1} justifyContent="center">
               <Button

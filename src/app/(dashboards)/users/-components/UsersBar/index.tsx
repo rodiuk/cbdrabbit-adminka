@@ -90,7 +90,7 @@ export const UsersBar = ({
         <Stack
           direction="row"
           alignItems="center"
-          justifyContent={{ xs: "center" }}
+          justifyContent={{ xs: "flex-end", sm: "center" }}
           spacing={1.25}
         >
           <Tooltip title={"Показати фільтри"}>
