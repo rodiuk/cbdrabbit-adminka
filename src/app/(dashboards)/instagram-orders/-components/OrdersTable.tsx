@@ -13,10 +13,10 @@ import {
 } from "@mui/material";
 import React from "react";
 import { InstagramOrder } from "@prisma/client";
-import { UpdateInstagramOrderModal } from "./UpdateInstagramOrderModal";
 import { usePagination } from "@/hooks/usePagination";
 import { InstagramOrderTableRow } from "./OrderTableRow";
 import { IPagination } from "@/types/interfaces/app.interface";
+import { UpdateInstagramOrderModal } from "./UpdateInstagramOrderModal";
 
 interface InstagramOrdersTableProps {
   orders: InstagramOrder[];
