@@ -10,6 +10,8 @@ export const useContentBarData = () => {
         return "Дошка";
       case "/orders":
         return "Список замовлень";
+      case "/instagram-orders":
+        return "Список instagram замовлень";
       case "/users":
         return "Список користувачів";
       case "/settings":
@@ -35,6 +37,13 @@ export const useContentBarData = () => {
           {
             title: "Список замовлень",
             href: "/orders",
+          },
+        ];
+      case "/instagram-orders":
+        return [
+          {
+            title: "Список instagram замовлень",
+            href: "/instagram-orders",
           },
         ];
       case "/users":

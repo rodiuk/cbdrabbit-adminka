@@ -31,6 +31,12 @@ const managerLinks: ILink[] = [
     url: "/orders",
     icon: <ListAlt />,
   },
+  {
+    id: "instagram-orders",
+    title: "Instagram замовлення",
+    url: "/instagram-orders",
+    icon: <ListAlt />,
+  },
 ];
 
 const adminLinks: ILink[] = [

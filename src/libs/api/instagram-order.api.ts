@@ -3,10 +3,12 @@
 import { revalidatePath } from "next/cache";
 import { OrderStatus } from "@prisma/client";
 import prismaClient from "@/libs/client/prisma.client";
-import { IOrderUpdatePayload } from "@/types/interfaces/order.interface";
-import { nanoid } from "nanoid";
+import {
+  ICreateInstagramOrder,
+  IUpdateInstagramOrder,
+} from "@/types/interfaces/instagramOrder.interface";
 
-export const getOrdersList = async (
+export const getInstagramOrdersList = async (
   page = 1,
   limit = 15,
   search?: string,
@@ -29,10 +31,8 @@ export const getOrdersList = async (
       ...(status && { status: { equals: status } }),
       ...(search?.length &&
         !checkId && {
-          deliveryInfo: {
-            trackingNumber: {
-              contains: search,
-            },
+          trackingNumber: {
+            contains: search,
           },
         }),
       ...(minPrice && { totalSum: { gte: minPrice } }),
@@ -41,18 +41,14 @@ export const getOrdersList = async (
       ...(endDate && { createdAt: { lte: new Date(endDate) } }),
     };
 
-    const total = await prismaClient.order.count({
+    const total = await prismaClient.instagramOrder.count({
       where: searchFilter,
     });
     const totalPage = Math.ceil(total / limit);
     const currentPage = page > totalPage ? totalPage : page;
 
-    const orders = await prismaClient.order.findMany({
+    const orders = await prismaClient.instagramOrder.findMany({
       where: searchFilter,
-      include: {
-        user: true,
-        deliveryInfo: true,
-      },
       orderBy: {
         createdAt: "desc",
       },
@@ -78,15 +74,11 @@ export const getOrdersList = async (
   }
 };
 
-export const getSendedOrders = async () => {
+export const getSendedInstagramOrders = async () => {
   try {
-    const orders = await prismaClient.order.findMany({
+    const orders = await prismaClient.instagramOrder.findMany({
       where: {
         status: "SENDED",
-      },
-      include: {
-        user: true,
-        deliveryInfo: true,
       },
       orderBy: {
         createdAt: "desc",
@@ -99,32 +91,23 @@ export const getSendedOrders = async () => {
   }
 };
 
-export const addOrUpdateTrackingNumberToOrder = async (
+export const addOrUpdateTrackingNumberToInstagramOrder = async (
   orderId: string,
   trackingNumber: string,
   path?: string
 ) => {
   try {
-    const order = await prismaClient.order.update({
+    const order = await prismaClient.instagramOrder.update({
       where: {
         id: orderId,
       },
       data: {
         status: "SENDED",
-        deliveryInfo: {
-          upsert: {
-            create: {
-              trackingNumber,
-            },
-            update: {
-              trackingNumber,
-            },
-          },
-        },
+        trackingNumber: trackingNumber,
       },
     });
 
-    revalidatePath(path ? path : "/orders");
+    revalidatePath(path ? path : "/instagram-orders");
 
     return order;
   } catch (error) {
@@ -132,13 +115,13 @@ export const addOrUpdateTrackingNumberToOrder = async (
   }
 };
 
-export const changeOrderStatus = async (
+export const changeInstagramOrderStatus = async (
   orderId: string,
   status: OrderStatus,
   path?: string
 ) => {
   try {
-    const order = await prismaClient.order.update({
+    const order = await prismaClient.instagramOrder.update({
       where: {
         id: orderId,
       },
@@ -147,7 +130,7 @@ export const changeOrderStatus = async (
       },
     });
 
-    revalidatePath(path ? path : "/orders");
+    revalidatePath(path ? path : "/instagram-orders");
 
     return order;
   } catch (error) {
@@ -155,21 +138,13 @@ export const changeOrderStatus = async (
   }
 };
 
-export const getFullOrderById = async (orderId: string) => {
+export const getFullInstagramOrderById = async (orderId: string) => {
   try {
-    const order = await prismaClient.order.findUnique({
+    const order = await prismaClient.instagramOrder.findUnique({
       where: {
         id: orderId,
       },
       include: {
-        user: {
-          include: {
-            address: true,
-            loyalty: true,
-          },
-        },
-        deliveryInfo: true,
-        promocode: true,
         orderItems: {
           include: {
             product: {
@@ -193,73 +168,109 @@ export const getFullOrderById = async (orderId: string) => {
   }
 };
 
-export const updateManagerOrder = async (
+export const updatePaymentLink = async (
   orderId: string,
-  data: IOrderUpdatePayload,
-  path?: string
+  paymentLink: string,
+  paymentId: string
 ) => {
   try {
-    const order = await prismaClient.order.update({
+    const order = await prismaClient.instagramOrder.update({
       where: {
         id: orderId,
       },
       data: {
-        status: data.status,
-        ...(!!data?.serviceComment?.length && {
-          serviceComment: data.serviceComment,
-        }),
+        paymentLink,
+        paymentId,
       },
     });
 
-    if (data?.trackingNumber) {
-      await prismaClient.deliveryInfo.upsert({
-        where: {
-          orderId,
-        },
-        create: {
-          orderId,
-          trackingNumber: data.trackingNumber,
-        },
-        update: {
-          trackingNumber: data.trackingNumber,
-        },
-      });
-    }
+    revalidatePath("/instagram-orders");
 
-    revalidatePath(path ? path : "/orders");
     return order;
   } catch (error) {
     throw error;
   }
 };
 
-export const deleteOrder = async (orderId: string, path?: string) => {
+export const updateManagerInstagramOrder = async (
+  orderId: string,
+  data: IUpdateInstagramOrder,
+  path?: string
+) => {
   try {
-    await prismaClient.order.delete({
+    const order = await prismaClient.instagramOrder.update({
       where: {
         id: orderId,
       },
+      data: {
+        status: data.status,
+        ...(!!data?.comment?.length && {
+          comment: data.comment,
+        }),
+        ...(data?.customerAddress?.length && {
+          customerAddress: data.customerAddress,
+        }),
+        ...(data?.customerInitials?.length && {
+          customerInitials: data.customerInitials,
+        }),
+        ...(data?.customerPhone?.length && {
+          customerPhone: data.customerPhone,
+        }),
+        ...(data?.trackingNumber?.length && {
+          customerEmail: data.trackingNumber,
+        }),
+        orderItems: {
+          updateMany: data.orderItems?.map((item) => ({
+            where: {
+              productId: item.productId,
+            },
+            data: {
+              quantity: item.quantity,
+            },
+          })),
+        },
+      },
     });
 
-    revalidatePath(path ? path : "/orders");
+    revalidatePath(path ? path : "/instagram-orders");
+    return order;
   } catch (error) {
     throw error;
   }
 };
 
-export const getOrderNewReference = async () => {
+export const deleteInstagramOrder = async (orderId: string, path?: string) => {
   try {
-    const res = await prismaClient.instagramOrder.findFirst({
-      orderBy: {
-        createdAt: "desc",
-      },
-      select: {
-        checkId: true,
+    await prismaClient.instagramOrder.delete({
+      where: {
+        id: orderId,
       },
     });
 
-    if (!res?.checkId) return nanoid(10);
+    revalidatePath(path ? path : "/instagram-orders");
+  } catch (error) {
+    throw error;
+  }
+};
 
-    return String(+res?.checkId + 1);
-  } catch (error) {}
+export const createInstagramOrder = async (data: ICreateInstagramOrder) => {
+  const { orderItems, ...rest } = data;
+  try {
+    const order = await prismaClient.instagramOrder.create({
+      data: {
+        ...rest,
+
+        orderItems: {
+          createMany: {
+            data: orderItems,
+          },
+        },
+      },
+    });
+
+    revalidatePath("/instagram-orders");
+    return order;
+  } catch (error) {
+    throw error;
+  }
 };

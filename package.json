@@ -15,7 +15,7 @@
     "@hookform/resolvers": "^3.9.0",
     "@mui/icons-material": "^5.16.7",
     "@mui/material": "^5.16.7",
-    "@prisma/client": "^5.18.0",
+    "@prisma/client": "^6.1.0",
     "bcrypt": "^5.1.1",
     "date-fns": "^3.6.0",
     "framer-motion": "^11.3.24",
@@ -23,11 +23,11 @@
     "interweave": "^13.1.0",
     "interweave-autolink": "^5.1.1",
     "jotai": "^2.9.2",
+    "nanoid": "^5.0.9",
     "next": "14.2.5",
     "next-auth": "^4.24.7",
     "node-cron": "^3.0.3",
     "npm": "^10.8.2",
-    "prisma": "^5.18.0",
     "react": "^18",
     "react-device-detect": "^2.2.3",
     "react-dom": "^18",
@@ -43,6 +43,7 @@
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "14.2.5",
+    "prisma": "^6.1.0",
     "typescript": "^5"
   }
 }

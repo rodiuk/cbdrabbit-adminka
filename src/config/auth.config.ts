@@ -47,6 +47,7 @@ export const authConfig: AuthOptions = {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
+
       async authorize(credentials, req) {
         if (!credentials?.email || !credentials?.password) return null;
 
@@ -97,6 +98,7 @@ export const authConfig: AuthOptions = {
       },
     }),
   ],
+
   callbacks: {
     async jwt({ token, user, trigger, session }) {
       if (user) {
