@@ -13,7 +13,9 @@ export interface ICreateInstagramOrder {
   comment?: string | null;
 
   paymentId?: string;
+  attachmentUrl?: string | null;
 
+  customerNickname?: string | null;
   customerInitials?: string | null;
   customerPhone?: string | null;
   customerAddress?: string | null;
@@ -49,6 +51,10 @@ export interface IUpdateInstagramOrder {
   status: OrderStatus;
   comment?: string | null;
   trackingNumber?: string | null;
+
+  attachmentUrl?: string | null;
+
+  customerNickname?: string | null;
   customerInitials?: string | null;
   customerPhone?: string | null;
   customerAddress?: string | null;

@@ -23,6 +23,8 @@ import { useUpdateInstagramOrderData } from "./useUpdateOrderData";
 import { IInstagramOrderFull } from "@/types/interfaces/instagramOrder.interface";
 import { InstagramOrderItems } from "../../CreateInstagramOrderModal/OrderContentForm/InstagramOrderItems/InstagramOrderItems";
 import { GeneratePaymentLink } from "../GeneratePaymentLink/GeneratePaymentLink";
+import { FileLoader } from "@/components/FormElements/FileLoader";
+import { appConfig } from "@/config/app.config";
 
 interface Props {
   order: IInstagramOrderFull;
@@ -34,12 +36,21 @@ interface Props {
 export const UpdateOrderContentForm = (props: Props): React.JSX.Element => {
   const { order, onClose } = props;
 
+  const [imageUrl, setImageUrl] = React.useState<string | null>(
+    order?.attachmentUrl || null
+  );
+  const [file, setFile] = React.useState<File | null>(null);
+
+  React.useEffect(() => {
+    setImageUrl(order?.attachmentUrl || null);
+  }, [order?.attachmentUrl]);
+
   const {
     onUpdate,
     isLoading: isUpdating,
     orderItems,
     setOrderItems,
-  } = useUpdateInstagramOrderData(order, onClose);
+  } = useUpdateInstagramOrderData(order, onClose, imageUrl, file);
 
   const {
     control,
@@ -187,6 +198,29 @@ export const UpdateOrderContentForm = (props: Props): React.JSX.Element => {
 
       <FormControl>
         <Typography fontWeight={600} sx={{ mb: 0.5 }}>
+          Посилання на сторінку або нікнейм
+        </Typography>
+        <Controller
+          name="customerNickname"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              fullWidth
+              multiline
+              size="small"
+              variant="outlined"
+              placeholder="Ініціали"
+              error={Boolean(errors.customerNickname)}
+              helperText={errors.customerNickname?.message}
+              disabled={isSubmitting}
+            />
+          )}
+        />
+      </FormControl>
+
+      <FormControl>
+        <Typography fontWeight={600} sx={{ mb: 0.5 }}>
           Номер телефону
         </Typography>
         <Controller
@@ -277,6 +311,20 @@ export const UpdateOrderContentForm = (props: Props): React.JSX.Element => {
           )}
         />
       </FormControl>
+
+      <FileLoader
+        onUploadImage={(file) => {
+          setFile(file);
+          setImageUrl(URL.createObjectURL(file));
+        }}
+        onDeleteImage={() => {
+          setFile(null);
+          setImageUrl(null);
+        }}
+        image={
+          imageUrl ? (file ? imageUrl : appConfig.IMAGE_URL + imageUrl) : ""
+        }
+      />
 
       <Divider />
 

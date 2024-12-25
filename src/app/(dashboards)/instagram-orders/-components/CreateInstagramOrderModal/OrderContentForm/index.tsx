@@ -13,6 +13,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useCreateInstagramOrder } from "../useCreateInstagramOrder";
 import { InstagramOrderFormSchema, InstagramOrderFormType } from "./schema";
 import { InstagramOrderItems } from "./InstagramOrderItems/InstagramOrderItems";
+import { FileLoader } from "@/components/FormElements/FileLoader";
 
 interface Props {
   onClose: () => void;
@@ -21,8 +22,10 @@ interface Props {
 export const OrderContent = (props: Props): React.JSX.Element => {
   const { onClose } = props;
 
+  const [file, setFile] = React.useState<File | null>(null);
+
   const { isLoading, create, orderItems, setOrderItems, productPrice } =
-    useCreateInstagramOrder(onClose);
+    useCreateInstagramOrder(onClose, file);
 
   const {
     control,
@@ -135,6 +138,29 @@ export const OrderContent = (props: Props): React.JSX.Element => {
 
       <FormControl>
         <Typography fontWeight={600} sx={{ mb: 0.5 }}>
+          Посилання на сторінку або нікнейм
+        </Typography>
+        <Controller
+          name="customerNickname"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              fullWidth
+              multiline
+              size="small"
+              variant="outlined"
+              placeholder="Ініціали"
+              error={Boolean(errors.customerNickname)}
+              helperText={errors.customerNickname?.message}
+              disabled={isSubmitting}
+            />
+          )}
+        />
+      </FormControl>
+
+      <FormControl>
+        <Typography fontWeight={600} sx={{ mb: 0.5 }}>
           Номер телефону
         </Typography>
         <Controller
@@ -203,6 +229,12 @@ export const OrderContent = (props: Props): React.JSX.Element => {
           )}
         />
       </FormControl>
+
+      <FileLoader
+        onUploadImage={(file) => setFile(file)}
+        onDeleteImage={() => setFile(null)}
+        image={file ? URL.createObjectURL(file) : ""}
+      />
 
       <Button
         type="submit"

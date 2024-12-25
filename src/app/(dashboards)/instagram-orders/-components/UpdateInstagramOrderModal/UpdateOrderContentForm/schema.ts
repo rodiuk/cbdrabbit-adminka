@@ -7,6 +7,7 @@ export const UpdateInstagramOrderFormSchema = z.object({
   customerInitials: z.string().optional().nullable(),
   customerPhone: z.string().optional().nullable(),
   customerAddress: z.string().optional().nullable(),
+  customerNickname: z.string().optional().nullable(),
   totalSum: z.number().optional().nullable(),
   itemPrice: z.number().optional().nullable(),
   trackingNumber: z

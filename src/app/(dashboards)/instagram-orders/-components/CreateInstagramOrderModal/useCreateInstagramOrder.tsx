@@ -1,11 +1,15 @@
 import React from "react";
+import { useToast } from "@/hooks/Toast/useToast";
+import { uploadMedia } from "@/libs/api/media.api";
 import { getProductPrice } from "@/libs/api/products.api";
 import { InstagramOrderFormType } from "./OrderContentForm/schema";
 import { createInstagramOrder } from "@/libs/api/instagram-order.api";
 import { ICreateInstagramOrderItemFull } from "@/types/interfaces/instagramOrder.interface";
-import { useToast } from "@/hooks/Toast/useToast";
 
-export const useCreateInstagramOrder = (onClose?: () => void) => {
+export const useCreateInstagramOrder = (
+  onClose?: () => void,
+  file?: File | null
+) => {
   const toast = useToast();
 
   const [isLoading, setIsLoading] = React.useState(false);
@@ -17,8 +21,18 @@ export const useCreateInstagramOrder = (onClose?: () => void) => {
   const create = async (payload: InstagramOrderFormType) => {
     try {
       setIsLoading(true);
+      let mediaPath: string | undefined;
+
+      if (file) {
+        const res = await uploadAttachment(file);
+
+        if (res?.mediaPath) {
+          mediaPath = res.mediaPath;
+        }
+      }
       const order = await createInstagramOrder({
         ...payload,
+        attachmentUrl: mediaPath,
         orderItems: orderItems?.map((item) => ({
           productId: item?.product?.id!,
           quantity: item.quantity,
@@ -34,6 +48,23 @@ export const useCreateInstagramOrder = (onClose?: () => void) => {
       console.error(error);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const uploadAttachment = async (file: File) => {
+    try {
+      const base64 = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = (error) => reject(error);
+        reader.readAsDataURL(file);
+      });
+
+      const base64Data = base64.split(",")[1];
+
+      return await uploadMedia(base64Data, file.name);
+    } catch (error) {
+      console.error(error);
     }
   };
 

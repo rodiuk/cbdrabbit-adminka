@@ -204,18 +204,12 @@ export const updateManagerInstagramOrder = async (
       },
       data: {
         status: data.status,
-        ...(!!data?.comment?.length && {
-          comment: data.comment,
-        }),
-        ...(data?.customerAddress?.length && {
-          customerAddress: data.customerAddress,
-        }),
-        ...(data?.customerInitials?.length && {
-          customerInitials: data.customerInitials,
-        }),
-        ...(data?.customerPhone?.length && {
-          customerPhone: data.customerPhone,
-        }),
+        comment: data.comment,
+        customerAddress: data.customerAddress,
+        customerInitials: data.customerInitials,
+        customerNickname: data.customerNickname,
+        customerPhone: data.customerPhone,
+        attachmentUrl: data.attachmentUrl,
         ...(data?.trackingNumber?.length && {
           customerEmail: data.trackingNumber,
         }),
@@ -254,11 +248,15 @@ export const deleteInstagramOrder = async (orderId: string, path?: string) => {
 };
 
 export const createInstagramOrder = async (data: ICreateInstagramOrder) => {
-  const { orderItems, ...rest } = data;
+  const { orderItems, attachmentUrl, ...rest } = data;
   try {
     const order = await prismaClient.instagramOrder.create({
       data: {
         ...rest,
+
+        ...(attachmentUrl && {
+          attachmentUrl,
+        }),
 
         orderItems: {
           createMany: {
