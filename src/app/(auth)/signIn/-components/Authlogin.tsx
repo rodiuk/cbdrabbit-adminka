@@ -30,12 +30,14 @@ import { useToast } from "@/hooks/Toast/useToast";
 import { getUserByEmail } from "@/libs/api/user.api";
 import { useAuthAccessDenied } from "@/hooks/useAuthAccessDenied";
 import { LoginFormSchema, LoginFormType } from "./schema";
+import { useRouter } from "next/navigation";
 
 const AuthLogin: React.FC = ({ ...others }) => {
   useAuthAccessDenied();
 
-  const theme = useTheme() as any;
   const toast = useToast();
+  const router = useRouter();
+  const theme = useTheme() as any;
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const matchDownSM = useMediaQuery(theme.breakpoints.down("md"));
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -98,6 +100,7 @@ const AuthLogin: React.FC = ({ ...others }) => {
       }
 
       toast("success", "Уррра!", "Ви успішно авторизувались!");
+      router.push("/orders");
     } catch (error) {
       toast(
         "error",

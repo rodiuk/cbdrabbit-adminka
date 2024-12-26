@@ -11,8 +11,8 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import Link from "next/link";
-import AuthLogin from "./-components/Authlogin";
 import { Suspense } from "react";
+import AuthLogin from "./-components/Authlogin";
 
 export default function SignIn() {
   const downMD = useMediaQuery<Theme>((theme) => theme.breakpoints.down("md"));

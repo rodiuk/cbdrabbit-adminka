@@ -41,7 +41,6 @@ export const useUpdateInstagramOrderData = (
         }
       }
 
-      console.log("mediaPath", mediaPath);
       const updatedOrder = await updateManagerInstagramOrder(order.id, {
         ...data,
         attachmentUrl: mediaPath,
@@ -65,6 +64,7 @@ export const useUpdateInstagramOrderData = (
   };
 
   const uploadAttachment = async (file: File) => {
+    console.log("file upload", file);
     try {
       const base64 = await new Promise<string>((resolve, reject) => {
         const reader = new FileReader();
