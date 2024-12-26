@@ -36,11 +36,6 @@ export const useUpdateInstagramOrderData = (
       if (file) {
         const res = await uploadAttachment(file);
 
-        console.log("res upload file", res);
-
-        console.log("res upload file mediaPath", res?.mediaPath);
-        console.log("current mediaPath", mediaPath);
-
         if (res?.mediaPath) {
           mediaPath = res.mediaPath;
         }
@@ -69,7 +64,6 @@ export const useUpdateInstagramOrderData = (
   };
 
   const uploadAttachment = async (file: File) => {
-    console.log("file for upload", file);
     try {
       const base64 = await new Promise<string>((resolve, reject) => {
         const reader = new FileReader();

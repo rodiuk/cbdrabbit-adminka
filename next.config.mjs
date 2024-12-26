@@ -10,6 +10,11 @@ const nextConfig = {
   sassOptions: {
     includePaths: [path.join(__dirname, "public/styles")],
   },
+  experimental: {
+    serverActions: {
+      bodySizeLimit: "20mb",
+    },
+  },
   async redirects() {
     return [
       {
