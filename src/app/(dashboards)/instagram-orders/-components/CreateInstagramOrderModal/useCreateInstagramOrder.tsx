@@ -24,7 +24,6 @@ export const useCreateInstagramOrder = (
       let mediaPath: string | undefined;
 
       if (file) {
-        console.log("file", file);
         const res = await uploadAttachment(file);
 
         if (res?.mediaPath) {
