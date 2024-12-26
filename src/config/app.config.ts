@@ -16,7 +16,7 @@ export const appConfig: AppConfig = {
   DOMAIN: process.env.PUBLIC_DOMAIN as string,
   API_KEY: process.env.API_KEY as string,
   IMAGE_URL:
-    (process.env.IMAGE_URL as string) || "https://files.cbdrabbit.shop",
+    (process.env.IMAGE_URL as string) || "https://files.cbdrabbit.shop/hello",
   SENDPULSE_EVENTS_URL: process.env.SENDPULSE_EVENTS_URL as string,
   SENDPULSE_API_URL: process.env.SENDPULSE_API_URL as string,
   SENDPULSE_CLIENT_ID: process.env.SENDPULSE_CLIENT_ID as string,
