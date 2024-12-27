@@ -1,5 +1,5 @@
 import React from "react";
-import { Close, CloudUpload } from "@mui/icons-material";
+import { Close, CloudUpload, Delete, Download } from "@mui/icons-material";
 import { Box, Button, IconButton, Tooltip } from "@mui/material";
 import { VisuallyHiddenInput } from "@/features/VisuallyHiddenInput";
 
@@ -12,36 +12,56 @@ interface FileLoaderProps {
 export const FileLoader = (props: FileLoaderProps): React.JSX.Element => {
   const { image, onDeleteImage, onUploadImage } = props;
 
+  const handleDownloadImage = () => {
+    if (!image) return;
+
+    const link = document.createElement("a");
+    link.href = image;
+    link.download = "uploaded-image.jpg";
+    link.click();
+  };
+
   return image ? (
     <Box
       sx={{
         position: "relative",
         display: "flex",
         width: "fit-content",
+        borderRadius: 1,
+        overflow: "hidden",
       }}
     >
-      <Tooltip title="Видалити фото чеку">
-        <IconButton
-          size="small"
-          onClick={onDeleteImage}
-          sx={{
-            width: "30px",
-            height: "30px",
-            backgroundColor: "grey.100",
+      <Box
+        sx={{
+          position: "absolute",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "flex-end",
 
-            "&:hover": {
-              backgroundColor: "grey.100",
-              opacity: 0.9,
-            },
+          backgroundColor: "#20202099",
 
-            position: "absolute",
-            top: "-10px",
-            right: "-10px",
-          }}
-        >
-          <Close />
-        </IconButton>
-      </Tooltip>
+          borderBottomLeftRadius: 1,
+          borderBottomRightRadius: 1,
+        }}
+      >
+        <Tooltip title="Завантажити фото чеку">
+          <IconButton
+            size="small"
+            color="primary"
+            onClick={handleDownloadImage}
+          >
+            <Download />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Видалити фото чеку">
+          <IconButton size="small" onClick={onDeleteImage} color="error">
+            <Delete />
+          </IconButton>
+        </Tooltip>
+      </Box>
       <Box
         component={"img"}
         src={image}
