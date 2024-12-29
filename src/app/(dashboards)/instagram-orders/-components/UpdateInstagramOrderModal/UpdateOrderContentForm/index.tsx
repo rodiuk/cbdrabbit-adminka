@@ -21,7 +21,7 @@ import { orderStatusList } from "../../order.maps";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useUpdateInstagramOrderData } from "./useUpdateOrderData";
-import { MediaManager } from "@/components/FormElements/MediaManager";
+import { MediaManager } from "@/app/(dashboards)/instagram-orders/-components/UpdateInstagramOrderModal/MediaManager/MediaManager";
 import { GeneratePaymentLink } from "../GeneratePaymentLink/GeneratePaymentLink";
 import { IInstagramOrderFull } from "@/types/interfaces/instagramOrder.interface";
 import { InstagramOrderItems } from "../../CreateInstagramOrderModal/OrderContentForm/InstagramOrderItems/InstagramOrderItems";

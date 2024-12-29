@@ -13,16 +13,24 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useCreateInstagramOrder } from "../useCreateInstagramOrder";
 import { InstagramOrderFormSchema, InstagramOrderFormType } from "./schema";
 import { InstagramOrderItems } from "./InstagramOrderItems/InstagramOrderItems";
+import { CreateMediaManager } from "./CreateMediaManager/CreateMediaManager";
 
 interface Props {
   onClose: () => void;
 }
 
+export interface CreateMedia {
+  id: string;
+  media: File;
+}
+
 export const OrderContent = (props: Props): React.JSX.Element => {
   const { onClose } = props;
 
+  const [medias, setMedias] = React.useState<CreateMedia[]>([]);
+
   const { isLoading, create, orderItems, setOrderItems, productPrice } =
-    useCreateInstagramOrder(onClose);
+    useCreateInstagramOrder(onClose, medias);
 
   const {
     control,
@@ -226,6 +234,8 @@ export const OrderContent = (props: Props): React.JSX.Element => {
           )}
         />
       </FormControl>
+
+      <CreateMediaManager medias={medias} setMedias={setMedias} />
 
       <Button
         type="submit"

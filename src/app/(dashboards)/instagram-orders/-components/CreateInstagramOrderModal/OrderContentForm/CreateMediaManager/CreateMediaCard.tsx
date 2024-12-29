@@ -1,24 +1,23 @@
 import React from "react";
-import { appConfig } from "@/config/app.config";
-import { InstagramMedia } from "@prisma/client";
+import { CreateMedia } from "..";
 import { Delete, Download } from "@mui/icons-material";
 import { Box, IconButton, Tooltip } from "@mui/material";
 
-import pdfPlaceholder from "../../../public/pdf.webp";
+import pdfPlaceholder from "../../../../../../../../public/pdf.webp";
 
-interface MediaCardProps {
-  media: InstagramMedia;
+interface CreateMediaCardProps {
+  media: CreateMedia;
   onDeleteMedia: () => void;
 }
 
-export const MediaCard = (props: MediaCardProps) => {
+export const CreateMediaCard = (props: CreateMediaCardProps) => {
   const { media, onDeleteMedia } = props;
 
   const handleDownloadImage = () => {
-    if (!media) return;
+    if (!media?.media) return;
 
     const link = document.createElement("a");
-    link.href = appConfig.IMAGE_URL + media.mediaPath;
+    link.href = URL.createObjectURL(media.media);
     link.download = "uploaded-image.jpg";
     link.click();
   };
@@ -67,9 +66,9 @@ export const MediaCard = (props: MediaCardProps) => {
       <Box
         component={"img"}
         src={
-          media?.type === "PDF"
+          media?.media?.type?.includes("pdf")
             ? pdfPlaceholder.src
-            : appConfig.IMAGE_URL + media.mediaPath
+            : URL.createObjectURL(media.media)
         }
         alt="uploaded"
         sx={{

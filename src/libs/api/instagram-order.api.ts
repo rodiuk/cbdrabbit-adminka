@@ -264,6 +264,20 @@ export const addInstagramOrderImage = async (
   }
 };
 
+export const uploadOrderMedia = async (mediaPath: string) => {
+  try {
+    const uploadedMedia = await prismaClient.instagramMedia.create({
+      data: {
+        mediaPath: mediaPath,
+      },
+    });
+
+    return uploadedMedia;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const deleteInstagramOrderImage = async (imageId: string) => {
   try {
     await prismaClient.instagramMedia.delete({
@@ -293,7 +307,7 @@ export const deleteInstagramOrder = async (orderId: string, path?: string) => {
 };
 
 export const createInstagramOrder = async (data: ICreateInstagramOrder) => {
-  const { orderItems, attachmentUrl, ...rest } = data;
+  const { orderItems, attachmentUrl, attachmentUrls, ...rest } = data;
   try {
     const order = await prismaClient.instagramOrder.create({
       data: {
@@ -302,6 +316,13 @@ export const createInstagramOrder = async (data: ICreateInstagramOrder) => {
         ...(attachmentUrl && {
           attachmentUrl,
         }),
+
+        ...(!!attachmentUrls &&
+          attachmentUrls?.length > 0 && {
+            attachmentUrls: {
+              connect: attachmentUrls,
+            },
+          }),
 
         orderItems: {
           createMany: {

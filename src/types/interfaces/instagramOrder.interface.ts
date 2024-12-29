@@ -15,6 +15,7 @@ export interface ICreateInstagramOrder {
 
   paymentId?: string;
   attachmentUrl?: string | null;
+  attachmentUrls?: InstagramMedia[] | null;
 
   customerNickname?: string | null;
   customerInitials?: string | null;

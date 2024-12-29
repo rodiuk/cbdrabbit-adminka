@@ -3,10 +3,18 @@ import { useToast } from "@/hooks/Toast/useToast";
 import { uploadMedia } from "@/libs/api/media.api";
 import { getProductPrice } from "@/libs/api/products.api";
 import { InstagramOrderFormType } from "./OrderContentForm/schema";
-import { createInstagramOrder } from "@/libs/api/instagram-order.api";
+import {
+  createInstagramOrder,
+  uploadOrderMedia,
+} from "@/libs/api/instagram-order.api";
 import { ICreateInstagramOrderItemFull } from "@/types/interfaces/instagramOrder.interface";
+import { CreateMedia } from "./OrderContentForm";
+import { InstagramMedia } from "@prisma/client";
 
-export const useCreateInstagramOrder = (onClose?: () => void) => {
+export const useCreateInstagramOrder = (
+  onClose?: () => void,
+  medias?: CreateMedia[]
+) => {
   const toast = useToast();
 
   const [isLoading, setIsLoading] = React.useState(false);
@@ -18,8 +26,16 @@ export const useCreateInstagramOrder = (onClose?: () => void) => {
   const create = async (payload: InstagramOrderFormType) => {
     try {
       setIsLoading(true);
+
+      const savedMedias = await uploadMedias();
+
       const order = await createInstagramOrder({
         ...payload,
+
+        ...(savedMedias?.length > 0 && {
+          attachmentUrls: savedMedias,
+        }),
+
         orderItems: orderItems?.map((item) => ({
           productId: item?.product?.id!,
           quantity: item.quantity,
@@ -36,6 +52,24 @@ export const useCreateInstagramOrder = (onClose?: () => void) => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const uploadMedias = async () => {
+    const createdMedias: InstagramMedia[] = [];
+
+    if (!medias) return createdMedias;
+
+    for await (const media of medias) {
+      await uploadAttachment(media.media);
+      const uploadedMedia = await uploadAttachment(media.media);
+
+      if (uploadedMedia?.mediaPath) {
+        const savedMedia = await uploadOrderMedia(uploadedMedia?.mediaPath);
+        createdMedias.push(savedMedia);
+      }
+    }
+
+    return createdMedias;
   };
 
   const uploadAttachment = async (file: File) => {
