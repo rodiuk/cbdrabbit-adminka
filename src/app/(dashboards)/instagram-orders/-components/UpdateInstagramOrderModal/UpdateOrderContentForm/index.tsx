@@ -63,7 +63,7 @@ export const UpdateOrderContentForm = (props: Props): React.JSX.Element => {
       customerInitials: order?.customerInitials,
       customerPhone: order?.customerPhone,
       totalSum: order?.totalSum,
-      itemPrice: order?.itemPrice,
+      itemPrice: +order?.itemPrice,
     },
   });
 
@@ -76,6 +76,8 @@ export const UpdateOrderContentForm = (props: Props): React.JSX.Element => {
       setValue("totalSum", quantity * currentProductPrice);
     }
   }, [orderItems, currentProductPrice, setValue]);
+
+  console.log("insta order", order);
 
   return (
     <Box
@@ -130,15 +132,14 @@ export const UpdateOrderContentForm = (props: Props): React.JSX.Element => {
             <TextField
               {...field}
               fullWidth
-              multiline
               size="small"
               type="number"
               InputProps={{
-                inputProps: { min: 3 },
+                type: "number",
+                inputProps: { min: 1 },
                 endAdornment: (
                   <Typography
                     sx={{
-                      px: 1,
                       fontSize: 18,
                     }}
                   >
@@ -152,7 +153,7 @@ export const UpdateOrderContentForm = (props: Props): React.JSX.Element => {
               helperText={errors.itemPrice?.message}
               disabled={isSubmitting}
               sx={{
-                maxWidth: { xs: "100%", sm: "100px" },
+                maxWidth: { xs: "100%", sm: "120px" },
               }}
             />
           )}

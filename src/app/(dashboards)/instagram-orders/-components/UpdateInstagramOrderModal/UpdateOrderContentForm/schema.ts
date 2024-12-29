@@ -5,11 +5,11 @@ export const UpdateInstagramOrderFormSchema = z.object({
   status: z.nativeEnum(OrderStatus),
   comment: z.string().optional().nullable(),
   customerInitials: z.string().optional().nullable(),
-  customerPhone: z.string().optional().nullable(),
-  customerAddress: z.string().optional().nullable(),
-  customerNickname: z.string().optional().nullable(),
-  totalSum: z.number().optional().nullable(),
-  itemPrice: z.number().optional().nullable(),
+  customerPhone: z.coerce.string().optional().nullable(),
+  customerAddress: z.coerce.string().optional().nullable(),
+  customerNickname: z.coerce.string().optional().nullable(),
+  totalSum: z.coerce.number().optional().nullable(),
+  itemPrice: z.coerce.number().optional().nullable(),
   trackingNumber: z
     .string()
     .max(14, "Номер ТТН повинен містити 14 символів")

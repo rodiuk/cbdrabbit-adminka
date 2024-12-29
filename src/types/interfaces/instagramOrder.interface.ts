@@ -53,6 +53,7 @@ export interface IProduct extends Product {
 export interface IUpdateInstagramOrder {
   status?: OrderStatus;
   comment?: string | null;
+  itemPrice?: number;
   trackingNumber?: string | null;
 
   attachmentUrl?: string | null;

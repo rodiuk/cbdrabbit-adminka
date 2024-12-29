@@ -210,7 +210,8 @@ export const updateManagerInstagramOrder = async (
         customerInitials: data.customerInitials,
         customerNickname: data.customerNickname,
         customerPhone: data.customerPhone,
-        attachmentUrl: data.attachmentUrl,
+
+        ...(data?.itemPrice && { itemPrice: data.itemPrice }),
         ...(data?.trackingNumber?.length && {
           customerEmail: data.trackingNumber,
         }),
