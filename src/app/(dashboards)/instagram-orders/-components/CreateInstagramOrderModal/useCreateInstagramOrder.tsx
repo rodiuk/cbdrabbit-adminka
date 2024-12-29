@@ -6,10 +6,7 @@ import { InstagramOrderFormType } from "./OrderContentForm/schema";
 import { createInstagramOrder } from "@/libs/api/instagram-order.api";
 import { ICreateInstagramOrderItemFull } from "@/types/interfaces/instagramOrder.interface";
 
-export const useCreateInstagramOrder = (
-  onClose?: () => void,
-  file?: File | null
-) => {
+export const useCreateInstagramOrder = (onClose?: () => void) => {
   const toast = useToast();
 
   const [isLoading, setIsLoading] = React.useState(false);
@@ -21,18 +18,8 @@ export const useCreateInstagramOrder = (
   const create = async (payload: InstagramOrderFormType) => {
     try {
       setIsLoading(true);
-      let mediaPath: string | undefined;
-
-      if (file) {
-        const res = await uploadAttachment(file);
-
-        if (res?.mediaPath) {
-          mediaPath = res.mediaPath;
-        }
-      }
       const order = await createInstagramOrder({
         ...payload,
-        attachmentUrl: mediaPath,
         orderItems: orderItems?.map((item) => ({
           productId: item?.product?.id!,
           quantity: item.quantity,

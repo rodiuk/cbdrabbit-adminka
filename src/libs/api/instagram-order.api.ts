@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { OrderStatus } from "@prisma/client";
+import { MediaType, OrderStatus } from "@prisma/client";
 import prismaClient from "@/libs/client/prisma.client";
 import {
   ICreateInstagramOrder,
@@ -159,6 +159,7 @@ export const getFullInstagramOrderById = async (orderId: string) => {
             },
           },
         },
+        attachmentUrls: true,
       },
     });
 
@@ -228,6 +229,50 @@ export const updateManagerInstagramOrder = async (
 
     revalidatePath(path ? path : "/instagram-orders");
     return order;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const addInstagramOrderImage = async (
+  orderId: string,
+  url: string,
+  type: MediaType
+) => {
+  try {
+    const order = await prismaClient.instagramOrder.update({
+      where: {
+        id: orderId,
+      },
+      data: {
+        attachmentUrls: {
+          create: {
+            mediaPath: url,
+            type: type,
+          },
+        },
+      },
+      select: {
+        attachmentUrls: true,
+      },
+    });
+
+    revalidatePath("/instagram-orders");
+    return order;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const deleteInstagramOrderImage = async (imageId: string) => {
+  try {
+    await prismaClient.instagramMedia.delete({
+      where: {
+        id: imageId,
+      },
+    });
+
+    revalidatePath("/instagram-orders");
   } catch (error) {
     throw error;
   }

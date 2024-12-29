@@ -15,8 +15,14 @@ export const UpdateInstagramOrderModal = (props: Props): React.JSX.Element => {
   const { orderId, open, onClose } = props;
 
   const isSm = useMediaQuery<Theme>((theme) => theme.breakpoints.up("sm"));
-  const { order, isLoading, title, generatePaymentLink, isGenerating } =
-    useOrderData(orderId);
+  const {
+    order,
+    setOrder,
+    isLoading,
+    title,
+    generatePaymentLink,
+    isGenerating,
+  } = useOrderData(orderId);
 
   return (
     <>
@@ -33,6 +39,7 @@ export const UpdateInstagramOrderModal = (props: Props): React.JSX.Element => {
           ) : (
             <UpdateOrderContentForm
               order={order}
+              setOrder={setOrder}
               onClose={onClose}
               generatePaymentLink={() => generatePaymentLink(orderId)}
               isGeneratingPaymentLink={isGenerating}

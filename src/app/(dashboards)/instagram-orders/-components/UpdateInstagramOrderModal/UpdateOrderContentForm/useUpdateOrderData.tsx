@@ -1,20 +1,25 @@
 import React from "react";
+import {
+  addInstagramOrderImage,
+  deleteInstagramOrderImage,
+  updateManagerInstagramOrder,
+} from "@/libs/api/instagram-order.api";
 import { useToast } from "@/hooks/Toast/useToast";
-import { UpdateInstagramOrderFormType } from "./schema";
-import { updateManagerInstagramOrder } from "@/libs/api/instagram-order.api";
 import {
   ICreateInstagramOrderItemFull,
   IInstagramOrderFull,
 } from "@/types/interfaces/instagramOrder.interface";
-import { uploadMedia } from "@/libs/api/media.api";
+import { UpdateInstagramOrderFormType } from "./schema";
+import { InstagramMedia, MediaType } from "@prisma/client";
+import { deleteMedia, uploadMedia } from "@/libs/api/media.api";
 
 export const useUpdateInstagramOrderData = (
   order: IInstagramOrderFull,
-  onClose?: () => void,
-  imageUrl?: string | null,
-  file?: File | null
+  setOrder: (order: IInstagramOrderFull) => void,
+  onClose?: () => void
 ) => {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [uploadingImage, setUploadingImage] = React.useState<boolean>(false);
 
   const [orderItems, setOrderItems] = React.useState<
     ICreateInstagramOrderItemFull[]
@@ -31,19 +36,9 @@ export const useUpdateInstagramOrderData = (
   const onUpdate = async (data: UpdateInstagramOrderFormType) => {
     try {
       setIsLoading(true);
-      let mediaPath: string | undefined | null = imageUrl;
-
-      if (file) {
-        const res = await uploadAttachment(file);
-
-        if (res?.mediaPath) {
-          mediaPath = res.mediaPath;
-        }
-      }
 
       const updatedOrder = await updateManagerInstagramOrder(order.id, {
         ...data,
-        attachmentUrl: mediaPath,
         orderItems: orderItems?.map((item) => ({
           productId: item?.product?.id!,
           quantity: item.quantity,
@@ -60,6 +55,50 @@ export const useUpdateInstagramOrderData = (
       toast("error", "Помилка", "Не вдалося оновити замовлення!");
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const addOrderImage = async (file: File) => {
+    try {
+      setUploadingImage(true);
+      const res = await uploadAttachment(file);
+
+      if (!res?.mediaPath) return;
+
+      const updatedOrder = await addInstagramOrderImage(
+        order.id,
+        res?.mediaPath,
+        file.type?.includes("pdf") ? MediaType.PDF : MediaType.IMAGE
+      );
+
+      setOrder({
+        ...order,
+        attachmentUrls: updatedOrder.attachmentUrls,
+      });
+      return updatedOrder;
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
+  const deleteOrderImage = async (media: InstagramMedia) => {
+    try {
+      setOrder({
+        ...order,
+        attachmentUrls: order.attachmentUrls?.filter(
+          (item) => item.id !== media.id
+        ),
+      });
+
+      await deleteMedia(media.mediaPath);
+
+      const updatedOrder = await deleteInstagramOrderImage(media.id);
+
+      return updatedOrder;
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -82,8 +121,11 @@ export const useUpdateInstagramOrderData = (
 
   return {
     isLoading,
+    isUploadingImage: uploadingImage,
     onUpdate,
     orderItems,
     setOrderItems,
+    addOrderImage,
+    deleteOrderImage,
   };
 };

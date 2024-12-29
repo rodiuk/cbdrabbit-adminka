@@ -5,6 +5,7 @@ import {
   Property,
   InstagramOrder,
   OrderStatus,
+  InstagramMedia,
 } from "@prisma/client";
 
 export interface ICreateInstagramOrder {
@@ -35,6 +36,7 @@ export interface ICreateOrderItem {
 }
 
 export interface IInstagramOrderFull extends InstagramOrder {
+  attachmentUrls: InstagramMedia[];
   orderItems: IOrderItem[];
 }
 
@@ -48,15 +50,16 @@ export interface IProduct extends Product {
 }
 
 export interface IUpdateInstagramOrder {
-  status: OrderStatus;
+  status?: OrderStatus;
   comment?: string | null;
   trackingNumber?: string | null;
 
   attachmentUrl?: string | null;
+  attachmentUrls?: string[] | null;
 
   customerNickname?: string | null;
   customerInitials?: string | null;
   customerPhone?: string | null;
   customerAddress?: string | null;
-  orderItems: ICreateOrderItem[];
+  orderItems?: ICreateOrderItem[];
 }

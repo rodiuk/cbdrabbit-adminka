@@ -13,7 +13,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useCreateInstagramOrder } from "../useCreateInstagramOrder";
 import { InstagramOrderFormSchema, InstagramOrderFormType } from "./schema";
 import { InstagramOrderItems } from "./InstagramOrderItems/InstagramOrderItems";
-import { FileLoader } from "@/components/FormElements/FileLoader";
 
 interface Props {
   onClose: () => void;
@@ -22,10 +21,8 @@ interface Props {
 export const OrderContent = (props: Props): React.JSX.Element => {
   const { onClose } = props;
 
-  const [file, setFile] = React.useState<File | null>(null);
-
   const { isLoading, create, orderItems, setOrderItems, productPrice } =
-    useCreateInstagramOrder(onClose, file);
+    useCreateInstagramOrder(onClose);
 
   const {
     control,
@@ -229,12 +226,6 @@ export const OrderContent = (props: Props): React.JSX.Element => {
           )}
         />
       </FormControl>
-
-      <FileLoader
-        onUploadImage={(file) => setFile(file)}
-        onDeleteImage={() => setFile(null)}
-        image={file ? URL.createObjectURL(file) : ""}
-      />
 
       <Button
         type="submit"

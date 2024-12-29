@@ -1,7 +1,7 @@
 import React from "react";
+import { createUrlForCheckout } from "@/libs/api/mono.api";
 import { getFullInstagramOrderById } from "@/libs/api/instagram-order.api";
 import { IInstagramOrderFull } from "@/types/interfaces/instagramOrder.interface";
-import { createUrlForCheckout } from "@/libs/api/mono.api";
 
 export const useOrderData = (orderId?: string | null) => {
   const [order, setOrder] = React.useState<IInstagramOrderFull | null>(null);
@@ -52,6 +52,7 @@ export const useOrderData = (orderId?: string | null) => {
 
   return {
     order,
+    setOrder,
     generatePaymentLink,
     isGenerating,
     isLoading,

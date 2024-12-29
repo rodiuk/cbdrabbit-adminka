@@ -16,41 +16,36 @@ import {
 } from "@mui/material";
 import React from "react";
 import { format } from "date-fns";
+import { InstagramMedia } from "@prisma/client";
 import { orderStatusList } from "../../order.maps";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useUpdateInstagramOrderData } from "./useUpdateOrderData";
+import { MediaManager } from "@/components/FormElements/MediaManager";
+import { GeneratePaymentLink } from "../GeneratePaymentLink/GeneratePaymentLink";
 import { IInstagramOrderFull } from "@/types/interfaces/instagramOrder.interface";
 import { InstagramOrderItems } from "../../CreateInstagramOrderModal/OrderContentForm/InstagramOrderItems/InstagramOrderItems";
-import { GeneratePaymentLink } from "../GeneratePaymentLink/GeneratePaymentLink";
-import { FileLoader } from "@/components/FormElements/FileLoader";
-import { appConfig } from "@/config/app.config";
 
 interface Props {
   order: IInstagramOrderFull;
+  setOrder: (order: IInstagramOrderFull) => void;
   onClose: () => void;
   generatePaymentLink: () => Promise<void>;
   isGeneratingPaymentLink: boolean;
 }
 
 export const UpdateOrderContentForm = (props: Props): React.JSX.Element => {
-  const { order, onClose } = props;
-
-  const [imageUrl, setImageUrl] = React.useState<string | null>(
-    order?.attachmentUrl || null
-  );
-  const [file, setFile] = React.useState<File | null>(null);
-
-  React.useEffect(() => {
-    setImageUrl(order?.attachmentUrl || null);
-  }, [order?.attachmentUrl]);
+  const { order, setOrder, onClose } = props;
 
   const {
     onUpdate,
     isLoading: isUpdating,
     orderItems,
     setOrderItems,
-  } = useUpdateInstagramOrderData(order, onClose, imageUrl, file);
+    deleteOrderImage,
+    addOrderImage,
+    isUploadingImage,
+  } = useUpdateInstagramOrderData(order, setOrder, onClose);
 
   const {
     control,
@@ -312,18 +307,15 @@ export const UpdateOrderContentForm = (props: Props): React.JSX.Element => {
         />
       </FormControl>
 
-      <FileLoader
-        onUploadImage={(file) => {
-          setFile(file);
-          setImageUrl(URL.createObjectURL(file));
+      <MediaManager
+        attachments={order?.attachmentUrls}
+        onUploadImage={async (file: File) => {
+          await addOrderImage(file);
         }}
-        onDeleteImage={() => {
-          setFile(null);
-          setImageUrl(null);
+        onDeleteImage={async (media: InstagramMedia) => {
+          await deleteOrderImage(media);
         }}
-        image={
-          imageUrl ? (file ? imageUrl : appConfig.IMAGE_URL + imageUrl) : ""
-        }
+        isUploadingImage={isUploadingImage}
       />
 
       <Divider />
