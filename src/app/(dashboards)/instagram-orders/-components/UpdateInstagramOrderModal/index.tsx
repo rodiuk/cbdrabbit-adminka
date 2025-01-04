@@ -33,6 +33,18 @@ export const UpdateInstagramOrderModal = (props: Props): React.JSX.Element => {
         fullScreen={!isSm}
         fullWidth
         maxWidth="sm"
+        containerProps={{
+          "& .MuiPaper-root": {
+            gap: "20px",
+            overflow: "hidden",
+            borderRadius: "16px",
+            padding: "0px",
+          },
+        }}
+        headerProps={{
+          px: "20px",
+          pt: "20px",
+        }}
         content={
           !order?.id || isLoading ? (
             <ModalLoader />

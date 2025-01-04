@@ -75,6 +75,8 @@ export const OrderContent = (props: Props): React.JSX.Element => {
         display: "flex",
         flexDirection: "column",
         gap: { xs: 1.5, sm: 2 },
+        padding: "20px",
+        pt: 0,
         overflowY: "auto",
       }}
     >

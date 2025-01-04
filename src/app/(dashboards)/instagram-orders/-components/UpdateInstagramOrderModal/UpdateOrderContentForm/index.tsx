@@ -86,6 +86,8 @@ export const UpdateOrderContentForm = (props: Props): React.JSX.Element => {
         flexDirection: "column",
         gap: { xs: 1.5, sm: 2 },
         overflowY: "auto",
+        padding: "20px",
+        pt: 0,
       }}
     >
       <Box sx={{ display: "flex" }}>

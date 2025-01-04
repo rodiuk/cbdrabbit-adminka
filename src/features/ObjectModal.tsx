@@ -16,12 +16,14 @@ export interface CreateObjectModalProps
   title?: ReactNode;
   content?: ReactNode;
   containerProps?: SxProps<Theme>;
+  headerProps?: SxProps<Theme>;
 }
 
 export default function ObjectModal({
   title,
   content,
   containerProps,
+  headerProps,
   ...props
 }: CreateObjectModalProps) {
   return (
@@ -47,6 +49,7 @@ export default function ObjectModal({
           alignItems: "flex-start",
           flexDirection: "column",
           gap: "8px",
+          ...headerProps,
         }}
       >
         <Box
