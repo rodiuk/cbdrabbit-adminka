@@ -19,6 +19,7 @@ export const useCreateInstagramOrder = (
   const toast = useToast();
 
   const [isLoading, setIsLoading] = React.useState(false);
+  const [isLoadingItems, setIsLoadingItems] = React.useState(false);
   const [orderItems, setOrderItems] = React.useState<
     ICreateInstagramOrderItemFull[]
   >([]);
@@ -27,7 +28,7 @@ export const useCreateInstagramOrder = (
   React.useEffect(() => {
     (async function fetch() {
       try {
-        setIsLoading(true);
+        setIsLoadingItems(true);
         const products = await getAllActiveProducts();
         if (products) {
           setOrderItems(
@@ -42,7 +43,7 @@ export const useCreateInstagramOrder = (
       } catch (error) {
         console.error("Error in fetch products:", error);
       } finally {
-        setIsLoading(false);
+        setIsLoadingItems(false);
       }
     })();
   }, []);
@@ -128,5 +129,6 @@ export const useCreateInstagramOrder = (
     setOrderItems,
     productPrice,
     isLoading,
+    isLoadingItems,
   };
 };

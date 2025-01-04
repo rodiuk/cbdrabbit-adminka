@@ -14,6 +14,7 @@ import { useCreateInstagramOrder } from "../useCreateInstagramOrder";
 import { InstagramOrderFormSchema, InstagramOrderFormType } from "./schema";
 import { InstagramOrderItems } from "./InstagramOrderItems/InstagramOrderItems";
 import { CreateMediaManager } from "./CreateMediaManager/CreateMediaManager";
+import { ModalLoader } from "@/components/Loaders/ModalLoader";
 
 interface Props {
   onClose: () => void;
@@ -29,8 +30,14 @@ export const OrderContent = (props: Props): React.JSX.Element => {
 
   const [medias, setMedias] = React.useState<CreateMedia[]>([]);
 
-  const { isLoading, create, orderItems, setOrderItems, productPrice } =
-    useCreateInstagramOrder(onClose, medias);
+  const {
+    isLoading,
+    isLoadingItems,
+    create,
+    orderItems,
+    setOrderItems,
+    productPrice,
+  } = useCreateInstagramOrder(onClose, medias);
 
   const {
     control,
@@ -58,7 +65,9 @@ export const OrderContent = (props: Props): React.JSX.Element => {
     }
   }, [orderItems, currentProductPrice, setValue]);
 
-  return (
+  return isLoadingItems ? (
+    <ModalLoader />
+  ) : (
     <Box
       component={"form"}
       onSubmit={handleSubmit(create)}
