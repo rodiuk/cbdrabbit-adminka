@@ -77,8 +77,6 @@ export const UpdateOrderContentForm = (props: Props): React.JSX.Element => {
     }
   }, [orderItems, currentProductPrice, setValue]);
 
-  console.log("insta order", order);
-
   return (
     <Box
       component={"form"}

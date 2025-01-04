@@ -3,8 +3,8 @@ import { z } from "zod";
 
 export const UpdateInstagramOrderFormSchema = z.object({
   status: z.nativeEnum(OrderStatus),
-  comment: z.string().optional().nullable(),
-  customerInitials: z.string().optional().nullable(),
+  comment: z.coerce.string().optional().nullable(),
+  customerInitials: z.coerce.string().optional().nullable(),
   customerPhone: z.coerce.string().optional().nullable(),
   customerAddress: z.coerce.string().optional().nullable(),
   customerNickname: z.coerce.string().optional().nullable(),

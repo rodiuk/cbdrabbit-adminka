@@ -1,15 +1,16 @@
 import React from "react";
-import { useToast } from "@/hooks/Toast/useToast";
-import { uploadMedia } from "@/libs/api/media.api";
-import { getProductPrice } from "@/libs/api/products.api";
-import { InstagramOrderFormType } from "./OrderContentForm/schema";
+import { nanoid } from "nanoid";
 import {
   createInstagramOrder,
   uploadOrderMedia,
 } from "@/libs/api/instagram-order.api";
-import { ICreateInstagramOrderItemFull } from "@/types/interfaces/instagramOrder.interface";
-import { CreateMedia } from "./OrderContentForm";
 import { InstagramMedia } from "@prisma/client";
+import { CreateMedia } from "./OrderContentForm";
+import { useToast } from "@/hooks/Toast/useToast";
+import { uploadMedia } from "@/libs/api/media.api";
+import { InstagramOrderFormType } from "./OrderContentForm/schema";
+import { getAllActiveProducts, getProductPrice } from "@/libs/api/products.api";
+import { ICreateInstagramOrderItemFull } from "@/types/interfaces/instagramOrder.interface";
 
 export const useCreateInstagramOrder = (
   onClose?: () => void,
@@ -22,6 +23,29 @@ export const useCreateInstagramOrder = (
     ICreateInstagramOrderItemFull[]
   >([]);
   const [productPrice, setProductPrice] = React.useState<number>(0);
+
+  React.useEffect(() => {
+    (async function fetch() {
+      try {
+        setIsLoading(true);
+        const products = await getAllActiveProducts();
+        if (products) {
+          setOrderItems(
+            products?.map((product) => ({
+              product,
+              quantity: 0,
+              giftQuantity: 0,
+              id: nanoid(),
+            }))
+          );
+        }
+      } catch (error) {
+        console.error("Error in fetch products:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    })();
+  }, []);
 
   const create = async (payload: InstagramOrderFormType) => {
     try {
@@ -36,9 +60,10 @@ export const useCreateInstagramOrder = (
           attachmentUrls: savedMedias,
         }),
 
-        orderItems: orderItems?.map((item) => ({
+        orderItems: orderItems.map((item) => ({
           productId: item?.product?.id!,
           quantity: item.quantity,
+          giftQuantity: item.giftQuantity,
         })),
       });
 

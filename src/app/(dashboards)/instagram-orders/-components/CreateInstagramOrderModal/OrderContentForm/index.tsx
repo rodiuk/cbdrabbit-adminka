@@ -84,7 +84,7 @@ export const OrderContent = (props: Props): React.JSX.Element => {
               size="small"
               type="number"
               InputProps={{
-                inputProps: { min: 3 },
+                inputProps: { min: 1 },
                 endAdornment: (
                   <Typography
                     sx={{

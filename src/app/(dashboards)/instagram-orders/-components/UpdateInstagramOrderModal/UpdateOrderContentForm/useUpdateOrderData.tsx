@@ -27,7 +27,12 @@ export const useUpdateInstagramOrderData = (
 
   React.useEffect(() => {
     if (order?.orderItems) {
-      setOrderItems(order.orderItems);
+      setOrderItems(
+        order.orderItems?.map((item) => ({
+          ...item,
+          giftQuantity: item?.giftQuantity || 0,
+        }))
+      );
     }
   }, []);
 
@@ -42,7 +47,9 @@ export const useUpdateInstagramOrderData = (
         orderItems: orderItems?.map((item) => ({
           productId: item?.product?.id!,
           quantity: item.quantity,
+          giftQuantity: item.giftQuantity,
         })),
+        itemPrice: data.itemPrice ?? undefined,
       });
 
       if (updatedOrder) {

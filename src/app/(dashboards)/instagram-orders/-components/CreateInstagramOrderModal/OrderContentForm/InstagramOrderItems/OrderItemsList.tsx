@@ -1,7 +1,6 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
-import { OrderItemView } from "./OrderItemView";
-import { AddNewProductForOrder } from "./AddNewProductForOrder";
+import { Box } from "@mui/material";
+import { OrderItemRow } from "./OrderItemRow";
 import { ICreateInstagramOrderItemFull } from "@/types/interfaces/instagramOrder.interface";
 
 interface OrderItemsListProps {
@@ -29,35 +28,18 @@ export const OrderItemsList = (
         sx={{
           display: "flex",
           flexDirection: "column",
+          gap: 1,
         }}
       >
-        {orderItems?.length > 0 ? (
+        {orderItems?.length > 0 &&
           orderItems.map((item) => (
-            <OrderItemView
+            <OrderItemRow
               key={item.id}
               orderItem={item}
               itemPrice={orderItemPrice}
-              onDelete={() =>
-                setOrderItems((prev) => prev.filter((x) => x.id !== item.id))
-              }
+              setOrderItems={setOrderItems}
             />
-          ))
-        ) : (
-          <Typography variant="body1">
-            Додайте позиції для створення замовлення
-          </Typography>
-        )}
-      </Box>
-
-      <Box
-        sx={{
-          display: "flex",
-        }}
-      >
-        <AddNewProductForOrder
-          orderItems={orderItems}
-          setOrderItems={setOrderItems}
-        />
+          ))}
       </Box>
     </Box>
   );

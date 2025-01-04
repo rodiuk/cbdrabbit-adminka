@@ -1,9 +1,9 @@
 import { z } from "zod";
 
 export const InstagramOrderFormSchema = z.object({
-  comment: z.string().optional().nullable(),
-  totalSum: z.number(),
-  itemPrice: z.number(),
+  comment: z.coerce.string().optional().nullable(),
+  totalSum: z.coerce.number(),
+  itemPrice: z.coerce.number(),
 
   customerInitials: z.string().optional().nullable(),
   customerPhone: z.string().optional().nullable(),
