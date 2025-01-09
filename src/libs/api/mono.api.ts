@@ -1,5 +1,6 @@
 "use server";
 
+import { appConfig } from "@/config/app.config";
 import {
   getFullInstagramOrderById,
   updatePaymentLink,
@@ -52,7 +53,7 @@ export const createUrlForCheckout = async (
         method: "POST",
         headers: {
           "Content-type": "application/json",
-          "X-Token": "uuQ6VjssSwihvTMlQGy3tWsdeiwSN_3TmQw8TU1fKRFo",
+          "X-Token": appConfig.MONOBANK,
         },
         body: JSON.stringify(arg),
       }
