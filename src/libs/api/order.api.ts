@@ -145,8 +145,19 @@ export const changeOrderStatus = async (
       data: {
         status,
         orderStatusHistory: {
-          create: {
-            status,
+          upsert: {
+            create: {
+              status: status,
+            },
+            update: {
+              status: status,
+            },
+            where: {
+              orderId_status: {
+                orderId,
+                status: status,
+              },
+            },
           },
         },
       },
@@ -210,6 +221,22 @@ export const updateManagerOrder = async (
       },
       data: {
         status: data.status,
+        orderStatusHistory: {
+          upsert: {
+            create: {
+              status: data.status,
+            },
+            update: {
+              status: data.status,
+            },
+            where: {
+              orderId_status: {
+                orderId,
+                status: data.status,
+              },
+            },
+          },
+        },
         ...(!!data?.serviceComment?.length && {
           serviceComment: data.serviceComment,
         }),

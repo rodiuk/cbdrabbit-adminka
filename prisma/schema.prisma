@@ -276,4 +276,6 @@ model OrderStatusHistory {
   updatedAt DateTime @updatedAt
 
   order Order @relation(fields: [orderId], references: [id])
+
+  @@unique([orderId, status])
 }
