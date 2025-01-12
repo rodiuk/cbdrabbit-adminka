@@ -65,7 +65,7 @@ export const OrderItemRow = (props: OrderItemRowProps): React.JSX.Element => {
               endAdornment: (
                 <Tooltip
                   title={`Сумарна вартість позиції - ${
-                    itemPrice * (orderItem.quantity || 0)
+                    itemPrice * (Number(orderItem.quantity) || 0)
                   } грн`}
                 >
                   <CalculateOutlined

@@ -48,8 +48,8 @@ export const useUpdateInstagramOrderData = (
         ...data,
         orderItems: orderItems?.map((item) => ({
           productId: item?.product?.id!,
-          quantity: item.quantity,
-          giftQuantity: item.giftQuantity,
+          quantity: Number(item.quantity) || 0,
+          giftQuantity: Number(item.giftQuantity) || 0,
         })),
         itemPrice: data.itemPrice ?? undefined,
       });

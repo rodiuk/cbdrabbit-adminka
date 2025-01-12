@@ -71,7 +71,10 @@ export const UpdateOrderContentForm = (props: Props): React.JSX.Element => {
   const currentTotalSum = watch("totalSum");
 
   React.useEffect(() => {
-    const quantity = orderItems.reduce((acc, item) => acc + item.quantity, 0);
+    const quantity = orderItems.reduce(
+      (acc, item) => acc + Number(item.quantity),
+      0
+    );
     if (currentProductPrice) {
       setValue("totalSum", quantity * currentProductPrice);
     }
