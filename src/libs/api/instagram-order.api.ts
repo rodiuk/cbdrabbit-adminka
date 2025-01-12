@@ -213,7 +213,7 @@ export const updateManagerInstagramOrder = async (
 
         ...(data?.itemPrice && { itemPrice: data.itemPrice }),
         ...(data?.trackingNumber?.length && {
-          customerEmail: data.trackingNumber,
+          trackingNumber: data.trackingNumber,
         }),
         orderItems: {
           updateMany: data.orderItems?.map((item) => ({
