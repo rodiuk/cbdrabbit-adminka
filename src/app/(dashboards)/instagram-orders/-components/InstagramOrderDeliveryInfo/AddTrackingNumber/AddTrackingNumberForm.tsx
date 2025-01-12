@@ -21,7 +21,7 @@ export const AddTrackingNumberForm = ({
     <Box
       component={"form"}
       onSubmit={handleSubmit(onSubmit)}
-      sx={{ gap: "20px" }}
+      sx={{ gap: "20px", pt: 1 }}
     >
       <Controller
         name="trackingNumber"
@@ -47,7 +47,7 @@ export const AddTrackingNumberForm = ({
         color={"secondary"}
         endIcon={isLoading && <CircularProgress size={21} />}
         sx={{
-          mt: 2,
+          mt: 3,
           width: "100%",
         }}
       >

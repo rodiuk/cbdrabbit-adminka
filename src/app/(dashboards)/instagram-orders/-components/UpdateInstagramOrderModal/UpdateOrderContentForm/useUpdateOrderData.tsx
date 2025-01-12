@@ -42,8 +42,6 @@ export const useUpdateInstagramOrderData = (
     try {
       setIsLoading(true);
 
-      console.log("data", data);
-
       const updatedOrder = await updateManagerInstagramOrder(order.id, {
         ...data,
         orderItems: orderItems?.map((item) => ({
