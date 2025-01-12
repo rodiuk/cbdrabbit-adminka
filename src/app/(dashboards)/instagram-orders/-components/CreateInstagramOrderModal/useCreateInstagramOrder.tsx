@@ -34,8 +34,8 @@ export const useCreateInstagramOrder = (
           setOrderItems(
             products?.map((product) => ({
               product,
-              quantity: 0,
-              giftQuantity: 0,
+              quantity: "",
+              giftQuantity: "",
               id: nanoid(),
             }))
           );
@@ -63,8 +63,8 @@ export const useCreateInstagramOrder = (
 
         orderItems: orderItems.map((item) => ({
           productId: item?.product?.id!,
-          quantity: item.quantity,
-          giftQuantity: item.giftQuantity,
+          quantity: item.quantity ? Number(item?.quantity) : 0,
+          giftQuantity: item.giftQuantity ? Number(item?.giftQuantity) : 0,
         })),
       });
 

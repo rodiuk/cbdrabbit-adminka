@@ -330,6 +330,9 @@ export const createInstagramOrder = async (data: ICreateInstagramOrder) => {
             data: orderItems,
           },
         },
+        deliveryInfo: {
+          create: {},
+        },
       },
     });
 

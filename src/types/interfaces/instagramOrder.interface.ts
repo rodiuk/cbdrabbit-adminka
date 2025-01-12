@@ -28,8 +28,8 @@ export interface ICreateInstagramOrder {
 export interface ICreateInstagramOrderItemFull {
   id: string;
   product: Product | null;
-  giftQuantity: number;
-  quantity: number;
+  giftQuantity: number | string;
+  quantity: number | string;
 }
 
 export interface ICreateOrderItem {

@@ -14,6 +14,20 @@ interface OrderItemRowProps {
 export const OrderItemRow = (props: OrderItemRowProps): React.JSX.Element => {
   const { orderItem, itemPrice, setOrderItems } = props;
 
+  const handleQuantityChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    field: "giftQuantity" | "quantity"
+  ) => {
+    const value = e.target.value;
+    setOrderItems((prev) =>
+      prev.map((item) =>
+        item.id === orderItem.id
+          ? { ...item, [field]: value === "" ? "" : Number(value) }
+          : item
+      )
+    );
+  };
+
   return (
     <Grid container alignItems={"center"} spacing={1}>
       <Grid item xs={12} sm={true}>
@@ -29,16 +43,8 @@ export const OrderItemRow = (props: OrderItemRowProps): React.JSX.Element => {
           InputProps={{
             inputProps: { min: 0 },
           }}
-          value={Number(orderItem?.giftQuantity)}
-          onChange={(e) =>
-            setOrderItems((prev) =>
-              prev.map((item) =>
-                item.id === orderItem.id
-                  ? { ...item, giftQuantity: Number(e.target.value) }
-                  : item
-              )
-            )
-          }
+          value={orderItem.giftQuantity ?? ""}
+          onChange={(e) => handleQuantityChange(e, "giftQuantity")}
         />
       </Grid>
       <Grid item xs={6} sm={4}>
@@ -59,7 +65,7 @@ export const OrderItemRow = (props: OrderItemRowProps): React.JSX.Element => {
               endAdornment: (
                 <Tooltip
                   title={`Сумарна вартість позиції - ${
-                    itemPrice * orderItem?.quantity
+                    itemPrice * (orderItem.quantity || 0)
                   } грн`}
                 >
                   <CalculateOutlined
@@ -71,16 +77,8 @@ export const OrderItemRow = (props: OrderItemRowProps): React.JSX.Element => {
                 </Tooltip>
               ),
             }}
-            value={Number(orderItem?.quantity)}
-            onChange={(e) =>
-              setOrderItems((prev) =>
-                prev.map((item) =>
-                  item.id === orderItem.id
-                    ? { ...item, quantity: Number(e.target.value) }
-                    : item
-                )
-              )
-            }
+            value={orderItem.quantity ?? ""}
+            onChange={(e) => handleQuantityChange(e, "quantity")}
           />
         </Box>
       </Grid>
