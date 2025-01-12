@@ -144,6 +144,11 @@ export const changeOrderStatus = async (
       },
       data: {
         status,
+        orderStatusHistory: {
+          create: {
+            status,
+          },
+        },
       },
     });
 
