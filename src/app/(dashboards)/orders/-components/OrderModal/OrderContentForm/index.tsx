@@ -20,6 +20,8 @@ import { OrderFormSchema, OrderFormType } from "./schema";
 import { useUpdateOrderData } from "./useUpdateOrderData";
 import { DeliveryInfoSection } from "./DeliveryInfoSection";
 import { IOrderFull } from "@/types/interfaces/order.interface";
+import { toZonedTime } from "date-fns-tz";
+import { appConfig } from "@/config/app.config";
 
 interface Props {
   order: IOrderFull;
@@ -62,7 +64,10 @@ export const OrderContent = (props: Props): React.JSX.Element => {
         <Chip
           size="small"
           color="primary"
-          label={format(order.createdAt, "dd.mm.yyyy hh:mm")}
+          label={format(
+            toZonedTime(order.createdAt, appConfig.CURRENT_TIMEZONE),
+            "dd.mm.yyyy HH:mm"
+          )}
         />
       </Box>
 

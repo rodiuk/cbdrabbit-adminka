@@ -11,11 +11,12 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import { format } from "date-fns";
+import { format, toZonedTime } from "date-fns-tz";
 import { InstagramOrder } from "@prisma/client";
 import { ChangeOrderStatus } from "./ChangeOrderStatus";
 import { InstagramOrderActions } from "./InstagramOrderActions";
 import { OrderDeliveryInfo } from "./InstagramOrderDeliveryInfo";
+import { appConfig } from "@/config/app.config";
 
 interface InstagramOrderTableRowProps {
   order: InstagramOrder;
@@ -73,7 +74,12 @@ export const InstagramOrderTableRow = (
 
       {isSm && (
         <TableCell>
-          <Tooltip title={format(order.createdAt, "yyyy-MM-dd HH:mm:ss")}>
+          <Tooltip
+            title={format(
+              toZonedTime(order.createdAt, appConfig.CURRENT_TIMEZONE),
+              "yyyy-MM-dd HH:mm:ss"
+            )}
+          >
             <Box sx={{ fontWeight: 500, cursor: "help" }}>
               {format(order.createdAt, "yyyy-MM-dd")}
             </Box>

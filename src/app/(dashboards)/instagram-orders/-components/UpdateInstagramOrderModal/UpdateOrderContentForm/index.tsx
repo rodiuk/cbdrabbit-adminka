@@ -15,8 +15,9 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import { format } from "date-fns";
+import { appConfig } from "@/config/app.config";
 import { InstagramMedia } from "@prisma/client";
+import { toZonedTime, format } from "date-fns-tz";
 import { orderStatusList } from "../../order.maps";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -97,7 +98,10 @@ export const UpdateOrderContentForm = (props: Props): React.JSX.Element => {
         <Chip
           size="small"
           color="primary"
-          label={format(order.createdAt, "dd.mm.yyyy hh:mm")}
+          label={format(
+            toZonedTime(order.createdAt, appConfig.CURRENT_TIMEZONE),
+            "dd.mm.yyyy HH:mm"
+          )}
         />
       </Box>
 

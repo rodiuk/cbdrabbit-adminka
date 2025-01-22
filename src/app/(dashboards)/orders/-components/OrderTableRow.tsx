@@ -11,11 +11,12 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import { format } from "date-fns";
+import { toZonedTime, format } from "date-fns-tz";
 import { OrderActions } from "./OrderActions";
 import { OrderDeliveryInfo } from "./OrderDeliveryInfo";
 import { ChangeOrderStatus } from "./ChangeOrderStatus";
 import { IOrderForList } from "@/types/interfaces/order.interface";
+import { appConfig } from "@/config/app.config";
 
 interface UserTableRowProps {
   order: IOrderForList;
@@ -74,7 +75,12 @@ export const OrderTableRow = (props: UserTableRowProps): React.JSX.Element => {
 
       {isSm && (
         <TableCell>
-          <Tooltip title={format(order.createdAt, "yyyy-MM-dd HH:mm:ss")}>
+          <Tooltip
+            title={format(
+              toZonedTime(order.createdAt, appConfig.CURRENT_TIMEZONE),
+              "yyyy-MM-dd HH:mm:ss"
+            )}
+          >
             <Box sx={{ fontWeight: 500, cursor: "help" }}>
               {format(order.createdAt, "yyyy-MM-dd")}
             </Box>

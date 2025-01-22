@@ -9,6 +9,7 @@ interface AppConfig {
   SENDPULSE_CLIENT_ID: string;
   SENDPULSE_CLIENT_SECRET: string;
   MONOBANK: string;
+  CURRENT_TIMEZONE: string;
 }
 
 export const appConfig: AppConfig = {
@@ -23,4 +24,5 @@ export const appConfig: AppConfig = {
   SENDPULSE_CLIENT_ID: process.env.SENDPULSE_CLIENT_ID as string,
   SENDPULSE_CLIENT_SECRET: process.env.SENDPULSE_CLIENT_SECRET as string,
   MONOBANK: process.env.MONOBANK as string,
+  CURRENT_TIMEZONE: 'Europe/Kiev',
 };

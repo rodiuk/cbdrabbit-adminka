@@ -19,6 +19,7 @@
     "basic-ftp": "^5.0.5",
     "bcrypt": "^5.1.1",
     "date-fns": "^3.6.0",
+    "date-fns-tz": "^3.2.0",
     "framer-motion": "^11.3.24",
     "install": "^0.13.0",
     "interweave": "^13.1.0",
