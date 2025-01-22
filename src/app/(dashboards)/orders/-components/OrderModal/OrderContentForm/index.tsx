@@ -66,7 +66,7 @@ export const OrderContent = (props: Props): React.JSX.Element => {
           color="primary"
           label={format(
             toZonedTime(order.createdAt, appConfig.CURRENT_TIMEZONE),
-            "dd.mm.yyyy HH:mm"
+            "dd.MM.yyyy HH:mm"
           )}
         />
       </Box>
