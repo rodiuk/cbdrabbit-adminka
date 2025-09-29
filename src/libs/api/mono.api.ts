@@ -29,16 +29,18 @@ export const createUrlForCheckout = async (
     merchantPaymInfo: {
       reference,
       destination: "Rabbit CBD",
-      basketOrder: order?.orderItems.map((item) => ({
-        name: item?.product?.productName,
-        qty: item.quantity,
-        sum: convertPrice(order.itemPrice),
-        icon: (item?.product?.images && item?.product?.images[0]?.url) ?? "",
-        unit: "шт.",
-        code: item.id,
-        tax: [0],
-        uktzed: "uktzedcode",
-      })),
+      basketOrder: order?.orderItems
+        ?.filter((item) => item.quantity > 0)
+        .map((item) => ({
+          name: item?.product?.productName,
+          qty: item.quantity,
+          sum: convertPrice(order.itemPrice),
+          icon: (item?.product?.images && item?.product?.images[0]?.url) ?? "",
+          unit: "шт.",
+          code: item.id,
+          tax: [0],
+          uktzed: "uktzedcode",
+        })),
     },
     redirectUrl: `https://cbdrabbit.shop/uk/checkout?successOrder=${reference}`,
     webHookUrl: "https://cbdrabbit.shop/api/checkout",
